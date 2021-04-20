@@ -1,12 +1,11 @@
 import './App.css';
-import {Login} from "./components/login";
-import {Register} from "./components/login";
+import Root from "./screens/Root";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Login/>
+          <Root> </Root>
       </header>
     </div>
   );
