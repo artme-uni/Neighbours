@@ -20,7 +20,7 @@ label {
     margin-top: 10px;
     margin-left: 10px;
     text-align: right;
-    margin-right:15px;
+    margin-right:10px;
     float:left;
 }
 
@@ -32,6 +32,14 @@ input {
 }
 
 button{
+    font-size: 12pt;
+}
+
+img{
+    width: 16em;
+}
+
+p{
     font-size: 12pt;
 }
 

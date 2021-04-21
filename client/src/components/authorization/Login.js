@@ -1,12 +1,13 @@
 import "./Style.css"
 import React, { Component } from "react";
+import loginImg from "../../resources/NeighboursLogo.svg";
 
 export default class Login extends Component {
     render() {
         return (
             <form>
+                <img src={loginImg}/>
                 <h3>Вход</h3>
-
                 <div className="form-group">
                     <label>Адрес почты</label>
                     <input type="email" className="form-control" placeholder="Введите адрес почты" />
