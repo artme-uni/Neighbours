@@ -1,12 +1,13 @@
 import "./Style.css"
 import React, { Component } from "react";
-import loginImg from "../../resources/NeighboursLogo.svg";
+
+import './Style.css'
 
 export default class Login extends Component {
     render() {
         return (
-            <form>
-                <img src={loginImg}/>
+            <form className = {'auth-forms'}>
+                {/*<img src={loginImg}/>*/}
                 <h3>Вход</h3>
                 <div className="form-group">
                     <label>Адрес почты</label>

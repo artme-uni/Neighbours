@@ -5,8 +5,8 @@ import loginImg from "../../resources/NeighboursLogo.svg";
 export default class Registration extends Component {
     render() {
         return (
-            <form>
-                <img src={loginImg}/>
+            <form className={'auth-forms'}>
+                {/*<img src={loginImg}/>*/}
                 <h3>Регистрация</h3>
                 <div className="form-group">
                     <label>Имя</label>
