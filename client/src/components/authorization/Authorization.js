@@ -74,9 +74,9 @@ export default class Authorization extends React.Component{
                             </div>
 
                             <button type="submit" className="btn btn-primary btn-block">Войти</button>
-                            <p className="forgot-password text-right">
-                                Забыли <a href="#">пароль?</a>
-                            </p>
+                            {/*<p className="forgot-password text-right">*/}
+                            {/*    Забыли <a href="#">пароль?</a>*/}
+                            {/*</p>*/}
                             <p className="have-no-account text-right">
                                 Не <a href="#" onClick={() => this.redirectToRegister()}>зарегистрированы?</a>
                             </p>
