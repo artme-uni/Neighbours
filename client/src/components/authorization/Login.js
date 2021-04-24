@@ -1,4 +1,3 @@
-import "./Style.css"
 import React from "react";
 import './Style.css'
 import Registration from "./Registration";

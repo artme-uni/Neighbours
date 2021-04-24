@@ -1,15 +1,13 @@
 import './App.css';
 import Root from "./screens/Rout";
-import Login from "./components/authorization/Login";
-import Registration from "./components/authorization/Registration";
+import Authorization from "./components/authorization/Authorization";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
           {/*<Root> </Root>*/}
-          <Login> </Login>
-          { /*<Registration> </Registration>*/ }
+          <Authorization> </Authorization>
       </header>
     </div>
   );
