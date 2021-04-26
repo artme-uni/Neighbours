@@ -1,7 +1,7 @@
-import './Main.css';
+import './MainScreen.css';
 import MainHeader from "../../components/header/MainHeader";
 
-function Main() {
+function MainScreen() {
     return (
         <div>
             <MainHeader> </MainHeader>
@@ -12,4 +12,4 @@ function Main() {
     );
 }
 
-export default Main;
+export default MainScreen;

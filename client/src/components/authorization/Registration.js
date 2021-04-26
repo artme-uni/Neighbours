@@ -1,72 +1,40 @@
-import "./Style.css"
-import React, { Component } from "react";
-import loginImg from "../../resources/NeighboursLogo.svg";
+import "./Authorization.css"
+import React, {Component} from "react";
 
 export default class Registration extends Component {
 
-    constructor(props) {
-        super(props);
-        this.handleClick = this.handleClick.bind(this);
-        this.state = {
-            openLogin: false,
-            Registration : true,
-        }
-    }
     handleClick() {
         console.log('По кнопке кликнули');
-    }
-
-    redirectToLogin(){
-        console.log('Открываем окно входа');
-        this.setState({
-            openLogin: true,
-            Registration: false,
-        });
     }
 
     render() {
         return (
             <div>
                 {
-                    this.state.Registration ?
-                        <form className={'auth-forms'}>
-                            {/*<img src={loginImg}/>*/}
-                            <h3>Регистрация</h3>
-                            <div className="form-group">
-                                <label>Имя</label>
-                                <input type="text" className="form-control" placeholder="Введите имя"/>
-                            </div>
+                    <form className={'auth-forms'}>
 
-                            <div className="form-group">
-                                <label>Фамилия</label>
-                                <input type="text" className="form-control" placeholder="Введите фамилию"/>
-                            </div>
+                        <div className={'auth-main-label'}>Регистрация</div>
 
-                            <div className="form-group">
-                                <label>Адрес почты</label>
-                                <input type="email" className="form-control" placeholder="Введите адрес почты"/>
-                            </div>
+                        <input type="text" className="auth-field" placeholder="Имя"/>
 
-                            <div className="form-group">
-                                <label>Пароль</label>
-                                <input type="password" className="form-control" placeholder="Введите пароль"/>
-                            </div>
+                        <input type="text" className="auth-field" placeholder="Фамилия"/>
 
-                            <button type="submit" className="btn btn-primary btn-block">Зарегистрироваться</button>
-                            <p className="forgot-password text-right">
-                                Уже зарегистрированы <a href="#" onClick={this.redirectToLogin}>войти?</a>
-                            </p>
-                        </form>
-                        : null
-                }
+                        <input type="email" className="auth-field" placeholder="Электронная почта"/>
 
-                {
-                    this.state.openLogin ?
-                        <Registration/> :
-                        null
+                        <input type="password" className="auth-field" placeholder="Пароль"/>
+
+                        <button type="submit" className="auth-button">Зарегистрироваться</button>
+
+                        <p className="auth-suggestion-label">
+                            Уже зарегистрированы? {' '}
+
+                            <a href="/login" className={'link'}>Войти</a>
+                        </p>
+                    </form>
                 }
             </div>
         );
     }
+
 }
 

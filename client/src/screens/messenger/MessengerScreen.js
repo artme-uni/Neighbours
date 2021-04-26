@@ -1,7 +1,7 @@
-import './Messenger.css';
+import './MessengerScreen.css';
 import MainHeader from "../../components/header/MainHeader";
 
-function Messenger() {
+function MessengerScreen() {
     return (
         <div>
             <MainHeader> </MainHeader>
@@ -12,4 +12,4 @@ function Messenger() {
     );
 }
 
-export default Messenger;
+export default MessengerScreen;

@@ -15,9 +15,9 @@ class MainHeader extends React.Component {
                         </Navbar>
 
                         <Navbar>
-                            <Nav.Link className={'link'} href={'/profile'}>Profile</Nav.Link>
-                            <Nav.Link className={'link'} href={'/feed'}>Feed</Nav.Link>
-                            <Nav.Link className={'link'} href={'/messenger'}>Messenger</Nav.Link>
+                            <Nav.Link className={'headerLink'} href={'/profile'}>Profile</Nav.Link>
+                            <Nav.Link className={'headerLink'} href={'/feed'}>Feed</Nav.Link>
+                            <Nav.Link className={'headerLink'} href={'/messenger'}>Messenger</Nav.Link>
                         </Navbar>
                     </Container>
                 </Navbar>

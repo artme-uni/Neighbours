@@ -1,7 +1,7 @@
-import './Profile.css';
+import './ProfileScreen.css';
 import MainHeader from "../../components/header/MainHeader";
 
-function Profile() {
+function ProfileScreen() {
     return (
         <div>
             <MainHeader> </MainHeader>
@@ -12,4 +12,4 @@ function Profile() {
 );
 }
 
-export default Profile;
+export default ProfileScreen;

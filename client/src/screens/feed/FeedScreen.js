@@ -1,7 +1,7 @@
-import './Feed.css';
+import './FeedScreen.css';
 import MainHeader from "../../components/header/MainHeader";
 
-function Feed() {
+function FeedScreen() {
     return (
         <div>
             <MainHeader/>
@@ -13,4 +13,4 @@ function Feed() {
     );
 }
 
-export default Feed;
+export default FeedScreen;
