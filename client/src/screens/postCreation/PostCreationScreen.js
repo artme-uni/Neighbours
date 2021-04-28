@@ -1,11 +1,12 @@
 import MainHeader from "../../components/header/MainHeader";
 import HeaderStub from "../../components/header/HeaderStub";
 import PostForm from "../../components/feed/PostForm";
+import React from "react";
 
 function PostCreationScreen() {
     return (
         <div>
-            <MainHeader/>
+            <MainHeader createIsVisible={false}/>
             <HeaderStub/>
             <div>
                 <PostForm />

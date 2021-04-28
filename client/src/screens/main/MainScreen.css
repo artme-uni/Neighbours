@@ -1,2 +1,60 @@
-.main {
+
+.left-city, .right-city,.main-screen-city-elements {
+    position: fixed;
+    bottom: 18px;
+    z-index: -1;
+}
+
+.left-city {
+    left: 0;
+}
+
+.right-city {
+    right: 0;
+}
+
+.main-screen-title {
+    z-index: 11;
+    min-height: 75vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    alignment: center;
+}
+
+.main-screen-text {
+    max-width: 700px;
+}
+
+.main-screen-city-elements {
+    z-index: -1;
+    alignment: center;
+}
+
+.main-screen-city-sun {
+    z-index: -2;
+
+    position: fixed;
+    bottom: -25px;
+    height: 80%;
+    alignment: center;
+    transform: translate(-50%, 0)
+}
+
+
+.background-city {
+    position: fixed;
+    alignment: center;
+    z-index: 1;
+    max-height: 20px;
+
+    bottom: 0; left: 0;
+}
+
+.main-screen-button {
+    margin-top: 20px;
+    max-width: 300px;
+    font-size: 18pt;
+    height: 40px;
 }
