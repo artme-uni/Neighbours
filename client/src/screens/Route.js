@@ -1,6 +1,5 @@
 import React from 'react';
-import { Router, Route} from 'react-router-dom';
-import history from './history';
+import { BrowserRouter, Route} from 'react-router-dom';
 
 import FeedScreen from "./feed/FeedScreen";
 import MessengerScreen from "./messenger/MessengerScreen";
@@ -12,7 +11,7 @@ import PostCreationScreen from "./postCreation/PostCreationScreen";
 
 function ScreensRoot() {
     return (
-        <Router history={history}>
+        <BrowserRouter>
             <Route exact path='/' component={MainScreen}/>
             <Route path='/feed' component={FeedScreen}/>
             <Route path='/messenger' component={MessengerScreen}/>
@@ -20,7 +19,7 @@ function ScreensRoot() {
             <Route path='/login' component={LoginScreen}/>
             <Route path='/registration' component={RegistrationScreen}/>
             <Route path='/create' component={PostCreationScreen}/>
-        </Router>
+        </BrowserRouter>
     );
 }
 
