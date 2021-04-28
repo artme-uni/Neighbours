@@ -1,26 +1,22 @@
 import React from "react";
-
-import {Navbar, Nav, Container} from 'react-bootstrap';
-
 import './MainHeader.css'
 
 class MainHeader extends React.Component {
     render() {
         return (
-            <div>
-                <Navbar collapseOnSelect fixed={'top'} expand={'sm'}>
-                    <Container className={'header'}>
-                        <Navbar>
-                            <Navbar.Brand className={'name'} href="/">Neighbors</Navbar.Brand>
-                        </Navbar>
+            <div className={'main-header-container'}>
+                <div className={'main-header'}>
+                    <a className={'main-header-name'} href="/">Neighbors</a>
 
-                        <Navbar>
-                            <Nav.Link className={'headerLink'} href={'/profile'}>Profile</Nav.Link>
-                            <Nav.Link className={'headerLink'} href={'/feed'}>Feed</Nav.Link>
-                            <Nav.Link className={'headerLink'} href={'/messenger'}>Messenger</Nav.Link>
-                        </Navbar>
-                    </Container>
-                </Navbar>
+                    <div className={'main-header-navbar-container'}>
+                        <a className={'main-header-big-links'} href={'/create'}>Создать</a>
+                        <a className={'main-header-simple-link'} href={'/feed'}>Объявления</a>
+                        <a className={'main-header-simple-link'} href={'/messenger'}>Мессенджер</a>
+                        <a className={'main-header-simple-link'} href={'/profile'}>Профиль</a>
+                    </div>
+                </div>
+
+                <div className={'header-transition'}> </div>
             </div>
         );
     }

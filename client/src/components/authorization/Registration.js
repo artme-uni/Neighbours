@@ -11,24 +11,24 @@ export default class Registration extends Component {
         return (
             <div>
                 {
-                    <form className={'auth-forms'}>
+                    <form className={'app-main-container auth-forms'}>
 
-                        <div className={'auth-main-label'}>Регистрация</div>
+                        <h2>Регистрация</h2>
 
-                        <input type="text" className="auth-field" placeholder="Имя"/>
+                        <input type="text" className="app-field auth-field" placeholder="Имя"/>
 
-                        <input type="text" className="auth-field" placeholder="Фамилия"/>
+                        <input type="text" className="app-field auth-field" placeholder="Фамилия"/>
 
-                        <input type="email" className="auth-field" placeholder="Электронная почта"/>
+                        <input type="email" className="app-field auth-field" placeholder="Электронная почта"/>
 
-                        <input type="password" className="auth-field" placeholder="Пароль"/>
+                        <input type="password" className="app-field auth-field" placeholder="Пароль"/>
 
-                        <button type="submit" className="auth-button">Зарегистрироваться</button>
+                        <button type="submit" className="app-button auth-element">Зарегистрироваться</button>
 
-                        <p className="auth-suggestion-label">
+                        <p className="auth-element">
                             Уже зарегистрированы? {' '}
 
-                            <a href="/login" className={'link'}>Войти</a>
+                            <a href="/login" className={'auth-link'}>Войти</a>
                         </p>
                     </form>
                 }

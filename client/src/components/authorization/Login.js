@@ -27,22 +27,22 @@ export default class Login extends React.Component {
         return (
             <div>
                 {
-                    <form className={'auth-forms'}>
+                    <form className={'app-main-container auth-forms'}>
 
-                        <div className={'auth-main-label'}>Вход</div>
+                        <h2>Вход</h2>
 
-                        <input type="email" className="auth-field" placeholder="Электронная почта"
+                        <input type="email" className="app-field auth-field" placeholder="Электронная почта"
                                value={this.state.email} onChange={val => this.updateEmail(val)}/>
 
-                        <input type="password" className="auth-field" placeholder="Пароль"
+                        <input type="password" className="app-field auth-field" placeholder="Пароль"
                                value={this.state.password} onChange={val => this.updatePassword(val)}/>
 
-                        <button type="submit" onClick={this.handleClick} className="auth-button"> Войти</button>
+                        <button type="submit" onClick={this.handleClick} className="app-button auth-element"> Войти</button>
 
-                        <p className="auth-suggestion-label">
+                        <p className="auth-element">
                             Впервые здесь? {' '}
 
-                            <a href='/registration' className={'link'}>
+                            <a href='/registration' className={'auth-link'}>
                                 Зарегистрироваться
                             </a>
                         </p>

@@ -5,85 +5,25 @@
     align-items: center;
     justify-content: center;
     alignment: center;
+
+    max-width: 500px;
 }
 
-.auth-field {
-    padding-left: 10px;
-    font-size: 18px;
-    width: 400px;
-    border-radius:5px;
+.auth-field, .auth-button, .auth-link, .auth-element{
     margin-top: 30px;
 }
 
-.auth-field::placeholder {
-    color: #333;
-    font-size: 1em;
+.auth-field {
+    width: 100%;
 }
 
-.auth-button {
-    position: relative;
-    width: 400px;
-    height: 35px;
-    border-radius:10px;
-    background-color: #563bbd;
-    color: #ffffff;
-    border: 1px solid;
-}
-
-.auth-button:hover {
-    background-color: #48319b;
-}
-
-.link {
+.auth-link {
     text-decoration: none;
     color: #48319b;
 }
 
-.link:hover {
+.auth-link:hover {
+    color: #48319b;
     text-decoration: underline;
-}
-
-.auth-suggestion-label {
-    margin-top: 30px;
-}
-
-.auth-main-label {
-    font-size: 26pt;
-}
-
-label {
-    font-size: 18px;
-    color: #333;
-    height: 20px;
-    width: 200px;
-    /*margin-top: 10px;*/
-    /*margin-left: 10px;*/
-    text-align: left;
-    /*margin-right:10px;*/
-    float:left;
-}
-
-input {
-    height: 30px;
-    width: 300px;
-    border: 1px solid #333;
-    /*margin-top: 10px;*/
-}
-
-button{
-    margin-top: 30px;
-    font-size: 12pt;
-}
-
-img{
-    width: 16em;
-}
-
-p{
-    font-size: 12pt;
-}
-
-h2{
-
 }
 

@@ -6,7 +6,6 @@ function App() {
     <div className="App">
       <header className="App-header">
           <Root> </Root>
-          {/*<Authorization> </Authorization>*/}
       </header>
     </div>
   );
