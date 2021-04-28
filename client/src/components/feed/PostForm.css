@@ -1,0 +1,21 @@
+.post-form{
+    text-align: left;
+}
+
+.post-form-field-element, .post-form-field {
+    margin-bottom: 30px;
+}
+
+.post-form-field-name {
+    margin-bottom: 10px;
+}
+
+.post-form-field {
+    width: 100%;
+    resize: none;
+}
+
+.post-form-text {
+    height: 300px;
+    vertical-align: top;
+}
