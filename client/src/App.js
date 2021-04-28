@@ -1,5 +1,5 @@
 import './App.css';
-import Root from "./screens/Route";
+import Root from "./screens/ScreensRoot";
 
 function App() {
   return (

@@ -8,7 +8,7 @@ export default class PostForm extends React.Component {
         return (
             <div>
                 <div className={'app-main-container post-form'}>
-                    <h2 className={'post-form-field-element'}>Создание объявления</h2>
+                    <h2 className={'post-form-field-element'}>{this.props.titleName}</h2>
 
                     <h4 className={'post-form-field-name'}>Заголовок объявления</h4>
                     <input type="text" className="post-form-field app-field" placeholder="Название"/>
@@ -17,7 +17,7 @@ export default class PostForm extends React.Component {
                     <textarea className="post-form-field  post-form-text app-field"
                               placeholder="Чем вы хотите поделиться?"/>
 
-                    <button type="submit" className="app-button">Создать</button>
+                    <button type="submit" className="app-button">{this.props.buttonName}</button>
                 </div>
             </div>
         );
@@ -26,6 +26,9 @@ export default class PostForm extends React.Component {
 
 
 PostForm.propTypes = {
+    titleName: PropTypes.string,
+    buttonName: PropTypes.string,
+
     title: PropTypes.string,
     author: PropTypes.string,
     date: PropTypes.string,

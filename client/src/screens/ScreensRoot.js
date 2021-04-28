@@ -8,6 +8,7 @@ import ProfileScreen from "./profile/ProfileScreen";
 import LoginScreen from "./login/LoginScreen";
 import RegistrationScreen from "./registration/RegistrationScreen";
 import PostCreationScreen from "./postCreation/PostCreationScreen";
+import PostEditingScreen from "./postEditing/PostEditingScreen";
 
 function ScreensRoot() {
     return (
@@ -19,6 +20,7 @@ function ScreensRoot() {
             <Route path='/login' component={LoginScreen}/>
             <Route path='/registration' component={RegistrationScreen}/>
             <Route path='/create' component={PostCreationScreen}/>
+            <Route path='/edit' component={PostEditingScreen}/>
         </BrowserRouter>
     );
 }

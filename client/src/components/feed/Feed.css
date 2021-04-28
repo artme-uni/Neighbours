@@ -9,6 +9,10 @@
     background-color: white;
 }
 
+.feed-post {
+    position: relative
+}
+
 .feed-post-title{
     text-decoration: none;
     color: #563bbd;
@@ -24,4 +28,27 @@
 
 .feed-post-text{
     padding-top: 20px;
+}
+
+.feed-post-info-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+
+.btn-styled {
+    background: none;
+    padding: 0 4px 0 0;
+    color: #333333;
+}
+
+.feed-post-dropdown-element:hover {
+    color: #563bbd;
+    background: none;
+}
+
+.feed-post-dropdown-element:focus {
+    color: white;
+    background-color: #563bbd;
 }

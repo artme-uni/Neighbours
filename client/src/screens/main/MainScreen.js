@@ -34,5 +34,5 @@ export default class MainScreen extends React.Component{
                 <img src={sun} className={'main-screen-city-sun'} alt={'sun'}/>
             </div>
         </div>
-    )};
+    )}
 }
