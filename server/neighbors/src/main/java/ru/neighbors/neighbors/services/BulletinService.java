@@ -28,4 +28,11 @@ public class BulletinService {
                 .map(bulletinMapper::toDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public BulletinDto create(BulletinDto dto) {
+        Bulletin bulletin = bulletinMapper.toEntity(dto);
+        log.info(bulletin.toString());
+        return bulletinMapper.toDto(bulletinRepository.save(bulletin));
+    }
 }

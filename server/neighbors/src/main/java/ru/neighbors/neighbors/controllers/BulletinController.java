@@ -22,4 +22,10 @@ public class BulletinController {
     public Collection<BulletinDto> findAll() {
         return bulletinService.findAll();
     }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<BulletinDto> create(@RequestBody BulletinDto bulletinDto) {
+        return ResponseEntity.ok(bulletinService.create(bulletinDto));
+    }
 }
