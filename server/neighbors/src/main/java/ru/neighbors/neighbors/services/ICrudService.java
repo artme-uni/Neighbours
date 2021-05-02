@@ -8,6 +8,8 @@ public interface ICrudService<T> {
 
     T update(T dto);
 
+    T findById(Long id);
+
     void deleteById(Long id);
 
     List<T> findAll();

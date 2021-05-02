@@ -30,6 +30,13 @@ public class BulletinService implements IBulletinService {
     }
 
     @Override
+    public BulletinDto findById(Long id) {
+        Bulletin bulletin = bulletinRepository.getOne(id);
+        log.info(bulletin.toString());
+        return bulletinMapper.toDto(bulletin);
+    }
+
+    @Override
     public BulletinDto create(BulletinDto dto) {
         Bulletin bulletin = bulletinMapper.toEntity(dto);
         log.info("Create:" + bulletin.toString());

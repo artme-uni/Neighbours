@@ -28,6 +28,11 @@ public class BulletinController {
         return ResponseEntity.ok(bulletinService.create(bulletinDto));
     }
 
+    @GetMapping(value = "/{id}")
+    public BulletinDto findById(@PathVariable("id") Long id) {
+        return bulletinService.findById(id);
+    }
+
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<BulletinDto> update(@PathVariable("id") Long id,
