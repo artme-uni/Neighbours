@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class BulletinService {
+public class BulletinService implements IBulletinService{
     private final BulletinRepository bulletinRepository;
     private final BulletinMapper bulletinMapper;
 
@@ -34,5 +34,11 @@ public class BulletinService {
         Bulletin bulletin = bulletinMapper.toEntity(dto);
         log.info(bulletin.toString());
         return bulletinMapper.toDto(bulletinRepository.save(bulletin));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        log.info("Want to delete bulletin with id={}", id);
+        bulletinRepository.deleteById(id);
     }
 }

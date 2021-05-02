@@ -1,11 +1,10 @@
 package ru.neighbors.neighbors.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.neighbors.neighbors.dto.BulletinDto;
-import ru.neighbors.neighbors.services.IBulletinService;
+import ru.neighbors.neighbors.services.BulletinService;
 
 import java.util.Collection;
 
@@ -27,5 +26,11 @@ public class BulletinController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<BulletinDto> create(@RequestBody BulletinDto bulletinDto) {
         return ResponseEntity.ok(bulletinService.create(bulletinDto));
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void delete(@PathVariable("id") Long id) {
+        bulletinService.deleteById(id);
     }
 }
