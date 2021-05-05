@@ -7,6 +7,7 @@ import ru.neighbors.neighbors.entities.Bulletin;
 import ru.neighbors.neighbors.mappers.BulletinMapper;
 import ru.neighbors.neighbors.repositories.BulletinRepository;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,7 @@ public class BulletinService implements IBulletinService {
     public List<BulletinDto> findAll() {
         return bulletinRepository.findAll()
                 .stream()
-                .map(bulletinMapper::toDto)
+                .map(bulletinMapper::bulletinToBulletinDto)
                 .collect(Collectors.toList());
     }
 
@@ -33,21 +34,22 @@ public class BulletinService implements IBulletinService {
     public BulletinDto findById(Long id) {
         Bulletin bulletin = bulletinRepository.getOne(id);
         log.info(bulletin.toString());
-        return bulletinMapper.toDto(bulletin);
+        return bulletinMapper.bulletinToBulletinDto(bulletin);
     }
 
     @Override
     public BulletinDto create(BulletinDto dto) {
         Bulletin bulletin = bulletinMapper.toEntity(dto);
+        bulletin.setPublicationDate(new Date(System.currentTimeMillis()));
         log.info("Create:" + bulletin.toString());
-        return bulletinMapper.toDto(bulletinRepository.save(bulletin));
+        return bulletinMapper.bulletinToBulletinDto(bulletinRepository.save(bulletin));
     }
 
     @Override
     public BulletinDto update(BulletinDto dto) {
         Bulletin bulletin = bulletinMapper.toEntity(dto);
         log.info("Update:" + bulletin.toString());
-        return bulletinMapper.toDto(bulletinRepository.save(bulletin));
+        return bulletinMapper.bulletinToBulletinDto(bulletinRepository.save(bulletin));
     }
 
     @Override

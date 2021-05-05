@@ -12,7 +12,9 @@ import java.sql.Date;
 public class Bulletin {
     @Id
     @Column(name = "bulletin_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @OneToOne
     @JoinColumn(name = "user_id")
     private User owner;

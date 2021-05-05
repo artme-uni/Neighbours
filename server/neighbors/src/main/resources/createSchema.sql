@@ -12,5 +12,7 @@ create table if not exists bulletins(
     title varchar(300) not null,
     text varchar(2000) not null,
     publication_date date not null,
-    user_id integer not null references users(user_id)
+    user_id integer not null references users(user_id) on delete cascade
 );
+
+create sequence if not exists users_id_seq increment 1 start 1;
