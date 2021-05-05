@@ -12,10 +12,12 @@ export default class Post extends React.Component {
                 <h3 className={'feed-post-title'}>
                     {this.props.title}
                 </h3>
+                
                 <div>
                     <text className={'feed-post-date'}>{this.props.date} {' | '}</text>
                     <b className={'feed-post-author'}>{this.props.author}</b>
                 </div>
+
                 <div className={'feed-post-text'}>
                     {this.props.text}
                 </div>
@@ -23,13 +25,17 @@ export default class Post extends React.Component {
 
                 {this.props.isEditable ?
                     <Dropdown className={'feed-post-info-button'}>
-                        <Dropdown.Toggle variant={'styled'} id="dropdown-basic"> </Dropdown.Toggle>
+                        <Dropdown.Toggle variant={'styled-toggle'} id="dropdown-basic">Изменить</Dropdown.Toggle>
 
                         <Dropdown.Menu>
                             <Dropdown.Item className={'feed-post-dropdown-element'} href={'/edit'}>
-                                Изменить
+                                Редактировать
                             </Dropdown.Item>
-                            <Dropdown.Item className={'feed-post-dropdown-element'}>Удалить</Dropdown.Item>
+
+                            <Dropdown.Item className={'feed-post-dropdown-element'}>
+                                Удалить
+                            </Dropdown.Item>
+
                         </Dropdown.Menu>
                     </Dropdown> : null}
 

@@ -37,10 +37,14 @@
 }
 
 
-.btn-styled {
+.btn-styled-toggle {
     background: none;
     padding: 0 4px 0 0;
-    color: #333333;
+    color: #727272;
+}
+
+.btn-styled-toggle:focus {
+    box-shadow: none;
 }
 
 .feed-post-dropdown-element:hover {
