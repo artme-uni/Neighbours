@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.neighbors.neighbors.dto.BulletinDto;
 import ru.neighbors.neighbors.services.IBulletinService;
 
+import javax.validation.Valid;
 import java.util.Collection;
 
 @RestController
@@ -24,7 +25,7 @@ public class BulletinController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Object> create(@RequestBody BulletinDto bulletinDto) {
+    public ResponseEntity<Object> create(@Valid @RequestBody BulletinDto bulletinDto) {
         bulletinService.create(bulletinDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -36,7 +37,7 @@ public class BulletinController {
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<BulletinDto> update(@RequestBody BulletinDto bulletinDto) {
+    public ResponseEntity<BulletinDto> update(@Valid @RequestBody BulletinDto bulletinDto) {
         return ResponseEntity.ok(bulletinService.update(bulletinDto));
     }
 

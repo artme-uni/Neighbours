@@ -9,6 +9,8 @@ import ru.neighbors.neighbors.entities.User;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
     User registrationUserDtoToUser(RegistrationUserDto registrationUserDto);
+
     LoginResponseUserDto userToLoginResponseUserDto(User user);
+
     BulletinUserDto userToBulletinUserDto(User user);
 }

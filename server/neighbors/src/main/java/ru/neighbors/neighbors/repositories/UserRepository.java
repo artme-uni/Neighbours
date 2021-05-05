@@ -7,5 +7,6 @@ import ru.neighbors.neighbors.entities.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User findUserByLogin(String login);
+
     boolean existsUserByLogin(String login);
 }

@@ -1,6 +1,5 @@
 package ru.neighbors.neighbors.configs;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +13,11 @@ import ru.neighbors.neighbors.services.AuthUserDetailsService;
 @Configuration
 @EnableConfigurationProperties
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    @Autowired
-    AuthUserDetailsService userDetailsService;
+    private final AuthUserDetailsService userDetailsService;
+
+    public SecurityConfiguration(AuthUserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

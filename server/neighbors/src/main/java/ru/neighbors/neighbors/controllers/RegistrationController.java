@@ -23,7 +23,7 @@ public class RegistrationController {
 
     @PostMapping(value = "/register")
     @ApiResponse(code = 409, message = "Username already exists")
-    public ResponseEntity<Object> createUser(@RequestBody @Valid RegistrationUserDto registrationUserDto) {
+    public ResponseEntity<Object> createUser(@Valid @RequestBody RegistrationUserDto registrationUserDto) {
         try {
             userService.createUser(registrationUserDto);
             return ResponseEntity.status(HttpStatus.CREATED).build();
