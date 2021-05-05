@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ICrudService<T> {
 
-    T create(T dto);
+    void create(T dto);
 
     T update(T dto);
 

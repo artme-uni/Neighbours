@@ -4,11 +4,14 @@ import io.swagger.annotations.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import ru.neighbors.neighbors.dto.LoginRequestUserDto;
 import ru.neighbors.neighbors.dto.RegistrationUserDto;
 import ru.neighbors.neighbors.services.UserService;
 
 import javax.security.auth.login.LoginException;
+import javax.validation.Valid;
 
 @RestController
 public class RegistrationController {
@@ -19,18 +22,18 @@ public class RegistrationController {
     }
 
     @PostMapping(value = "/register")
-    @ApiResponse(code = 409, message = "username already exists")
-    public ResponseEntity<Object> createUser(RegistrationUserDto registrationUserDto) {
+    @ApiResponse(code = 409, message = "Username already exists")
+    public ResponseEntity<Object> createUser(@RequestBody @Valid RegistrationUserDto registrationUserDto) {
         try {
             userService.createUser(registrationUserDto);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (LoginException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("username already exists");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists");
         }
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<Object> loginUser() {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Object> loginUser(@RequestBody LoginRequestUserDto loginRequestUserDto) {
+        return ResponseEntity.ok(userService.loginUser(loginRequestUserDto));
     }
 }

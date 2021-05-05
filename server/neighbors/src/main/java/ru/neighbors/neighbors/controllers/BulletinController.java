@@ -24,8 +24,9 @@ public class BulletinController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<BulletinDto> create(@RequestBody BulletinDto bulletinDto) {
-        return ResponseEntity.ok(bulletinService.create(bulletinDto));
+    public ResponseEntity<Object> create(@RequestBody BulletinDto bulletinDto) {
+        bulletinService.create(bulletinDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping(value = "/{id}")
@@ -35,8 +36,7 @@ public class BulletinController {
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<BulletinDto> update(@PathVariable("id") Long id,
-                                              @RequestBody BulletinDto bulletinDto) {
+    public ResponseEntity<BulletinDto> update(@RequestBody BulletinDto bulletinDto) {
         return ResponseEntity.ok(bulletinService.update(bulletinDto));
     }
 

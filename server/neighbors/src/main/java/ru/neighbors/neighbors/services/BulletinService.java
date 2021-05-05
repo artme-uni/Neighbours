@@ -6,6 +6,7 @@ import ru.neighbors.neighbors.dto.BulletinDto;
 import ru.neighbors.neighbors.entities.Bulletin;
 import ru.neighbors.neighbors.mappers.BulletinMapper;
 import ru.neighbors.neighbors.repositories.BulletinRepository;
+import ru.neighbors.neighbors.repositories.UserRepository;
 
 import java.sql.Date;
 import java.util.List;
@@ -15,10 +16,14 @@ import java.util.stream.Collectors;
 @Service
 public class BulletinService implements IBulletinService {
     private final BulletinRepository bulletinRepository;
+    private final UserRepository userRepository;
     private final BulletinMapper bulletinMapper;
 
-    public BulletinService(BulletinRepository bulletinRepository, BulletinMapper bulletinMapper) {
+    public BulletinService(BulletinRepository bulletinRepository,
+                           UserRepository userRepository,
+                           BulletinMapper bulletinMapper) {
         this.bulletinRepository = bulletinRepository;
+        this.userRepository = userRepository;
         this.bulletinMapper = bulletinMapper;
     }
 
@@ -38,17 +43,20 @@ public class BulletinService implements IBulletinService {
     }
 
     @Override
-    public BulletinDto create(BulletinDto dto) {
-        Bulletin bulletin = bulletinMapper.toEntity(dto);
+    public void create(BulletinDto dto) {
+        Bulletin bulletin = bulletinMapper.bulletinDtoToBulletin(dto);
         bulletin.setPublicationDate(new Date(System.currentTimeMillis()));
-        log.info("Create:" + bulletin.toString());
-        return bulletinMapper.bulletinToBulletinDto(bulletinRepository.save(bulletin));
+        bulletin.setOwner(userRepository.findUserByLogin(bulletin.getOwner().getLogin()));
+        bulletinRepository.save(bulletin);
+        log.info("Created: " + bulletin);
     }
 
     @Override
     public BulletinDto update(BulletinDto dto) {
-        Bulletin bulletin = bulletinMapper.toEntity(dto);
-        log.info("Update:" + bulletin.toString());
+        var bulletin = bulletinRepository.getOne(dto.getId());
+        bulletinMapper.updateBulletinFromBulletinDto(dto, bulletin);
+        bulletin.setPublicationDate(new Date(System.currentTimeMillis()));
+        log.info("Update:" + bulletin);
         return bulletinMapper.bulletinToBulletinDto(bulletinRepository.save(bulletin));
     }
 

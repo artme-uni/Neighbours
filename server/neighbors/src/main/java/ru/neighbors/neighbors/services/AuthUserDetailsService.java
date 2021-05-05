@@ -11,7 +11,6 @@ import ru.neighbors.neighbors.repositories.UserRepository;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class AuthUserDetailsService implements UserDetailsService {
@@ -20,12 +19,12 @@ public class AuthUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = repository.findUserByLogin(username);
-        if(user.isEmpty()) {
+        User user = repository.findUserByLogin(username);
+        if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
         List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("user"));
-        return new org.springframework.security.core.userdetails.User(user.get().getLogin(),
-                user.get().getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(user.getLogin(),
+                user.getPassword(), authorities);
     }
 }

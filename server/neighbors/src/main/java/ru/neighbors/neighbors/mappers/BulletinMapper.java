@@ -1,12 +1,13 @@
 package ru.neighbors.neighbors.mappers;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import ru.neighbors.neighbors.dto.BulletinDto;
-import ru.neighbors.neighbors.dto.UserDto;
 import ru.neighbors.neighbors.entities.Bulletin;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = UserMapper.class)
 public interface BulletinMapper {
     BulletinDto bulletinToBulletinDto(Bulletin bulletin);
-    Bulletin toEntity(BulletinDto bulletinDto);
+    Bulletin bulletinDtoToBulletin(BulletinDto bulletinDto);
+    void updateBulletinFromBulletinDto(BulletinDto bulletinDto, @MappingTarget Bulletin bulletin);
 }
