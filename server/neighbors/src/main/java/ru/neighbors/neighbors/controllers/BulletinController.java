@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import java.util.Collection;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/bulletins")
 public class BulletinController {
     private final IBulletinService bulletinService;

@@ -3,6 +3,7 @@ package ru.neighbors.neighbors.controllers;
 import io.swagger.annotations.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,7 @@ import javax.security.auth.login.LoginException;
 import javax.validation.Valid;
 
 @RestController
+@CrossOrigin
 public class RegistrationController {
     private final UserService userService;
 
