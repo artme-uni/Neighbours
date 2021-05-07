@@ -6,7 +6,7 @@
     justify-content: center;
     alignment: center;
 
-    max-width: 500px;
+    max-width: 550px;
 }
 
 .auth-field, .auth-button, .auth-link, .auth-element{
@@ -27,3 +27,17 @@
     text-decoration: underline;
 }
 
+.auth-map {
+
+}
+
+.auth-hint {
+}
+
+.auth-text-area {
+    resize: none;
+    width: 100%;
+    vertical-align: top;
+    background-color: white;
+    margin: 30px 0 30px;
+}

@@ -2,6 +2,7 @@ import './FeedScreen.css';
 import MainHeader from "../../components/header/MainHeader";
 import FeedContainer from "../../components/feed/FeedContainer";
 import HeaderStub from "../../components/header/HeaderStub";
+import React from 'react'
 
 
 function FeedScreen() {
