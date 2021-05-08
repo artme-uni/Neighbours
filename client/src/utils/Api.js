@@ -40,4 +40,61 @@ export default class Api {
 
         return Buffer.from(`${this.loginInfo.login}:${this.loginInfo.password}`, 'utf8').toString('base64')
     }
+
+    static get_all_bulletins(responseHandler, errorHandler){
+        axios({
+            method: 'get',
+            url: this.url + '/bulletins',
+            headers: {
+                'Authorization': `Basic ${this.getToken()}`
+            },
+        }).then(responseHandler).catch(errorHandler)
+    }
+
+    static get_bulletin(responseHandler, errorHandler, id){
+        axios({
+            method: 'get',
+            url: this.url + '/bulletins/{'+id+'}',
+            headers: {
+                'Authorization': `Basic ${this.getToken()}`
+            },
+        }).then(responseHandler).catch(errorHandler)
+    }
+
+    static create_bulletin(responseHandler, errorHandler, text, title){
+        axios({
+            method: 'post',
+            url: this.url + '/bulletin',
+            headers: {
+                'Authorization': `Basic ${this.getToken()}`
+            },
+            data:{
+                owner: {
+                    login: this.loginInfo,
+                },
+                text: text,
+                title: title
+            }
+        }).then(responseHandler).catch(errorHandler)
+    }
+
+    static update_bulletin(responseHandler, errorHandler, id, text, title){
+        axios({
+            method: 'put',
+            url: this.url + '/bulletins/{'+id+'}',
+            headers: {
+                'Authorization': `Basic ${this.getToken()}`
+            },
+            data:{
+                id: id,
+                owner: {
+                    firstName: this.userInfo.firstName,
+                    lastName: this.userInfo.lastName,
+                    login: this.loginInfo,
+                },
+                text: text,
+                title: title
+            }
+        }).then(responseHandler).catch(errorHandler)
+    }
 }
