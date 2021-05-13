@@ -61,7 +61,9 @@ export default class Api {
         }).then(responseHandler).catch(errorHandler)
     }
 
-    static create_bulletin(responseHandler, errorHandler, text, title){
+    static create_bulletin(bulletinInfo, responseHandler, errorHandler){
+        console.log('Authorization Basic ' + this.getToken())
+
         axios({
             method: 'post',
             url: this.url + '/bulletin',
@@ -70,10 +72,12 @@ export default class Api {
             },
             data:{
                 owner: {
+                    firstName: this.userInfo.firstName,
+                    lastName: this.userInfo.lastName,
                     login: this.loginInfo,
                 },
-                text: text,
-                title: title
+                title: bulletinInfo.title,
+                text: bulletinInfo.text
             }
         }).then(responseHandler).catch(errorHandler)
     }
