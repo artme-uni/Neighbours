@@ -30,8 +30,13 @@ export default class Api {
         localStorage.setItem(this.loginInfoKey, JSON.stringify(info));
     }
 
-    static getLoginInfo(){
+    static loadLoginInfo(){
         this.loginInfo = JSON.parse(localStorage.getItem(this.loginInfoKey))
+    }
+
+    static getLogin(){
+        this.loadLoginInfo()
+        return this.loginInfo.login
     }
 
     static login(loginInfo, responseHandler, errorHandler){
@@ -50,7 +55,7 @@ export default class Api {
     }
 
     static getToken(){
-        this.getLoginInfo()
+        this.loadLoginInfo()
         return Buffer.from(`${this.loginInfo.login}:${this.loginInfo.password}`, 'utf8').toString('base64')
     }
 
@@ -75,7 +80,7 @@ export default class Api {
     }
 
     static create_bulletin(bulletinInfo, responseHandler, errorHandler){
-        this.getLoginInfo()
+        this.loadLoginInfo()
         axios({
             method: 'post',
             url: this.url + '/bulletins',

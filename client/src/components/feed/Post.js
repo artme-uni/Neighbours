@@ -12,7 +12,7 @@ export default class Post extends React.Component {
                 <h3 className={'feed-post-title'}>
                     {this.props.title}
                 </h3>
-                
+
                 <div>
                     <text className={'feed-post-date'}>{this.props.date} {' | '}</text>
                     <b className={'feed-post-author'}>{this.props.author}</b>
@@ -43,6 +43,7 @@ export default class Post extends React.Component {
         );
     }
 }
+
 
 
 Post.propTypes = {

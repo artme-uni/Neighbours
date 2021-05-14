@@ -12,7 +12,7 @@ export default class FeedContainer extends React.Component {
 
                 {this.props.posts.map(post =>
                     <div className={'feed-container-element'}>
-                        <Post author={post.author} date={post.date} title={post.title} text={post.text} isEditable={post.isEditable}/>
+                        <Post posе ={post}/>
                     </div>
                 )}
 
