@@ -68,6 +68,11 @@ export default class PostForm extends React.Component {
                         className="post-form-field  post-form-text app-field"
                         placeholder="Чем вы хотите поделиться?"/>
 
+                    {   this.props.errorMsg ?
+                        <p className={'app-hint auth-element'}> <b>Ошибка: </b>
+                            <i>{this.props.errorMsg}!</i></p> : null
+                    }
+
                     <button type="submit" className="app-button">{this.props.buttonName}</button>
                 </form>
             }

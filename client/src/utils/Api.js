@@ -3,6 +3,7 @@ import axios from 'axios';
 export default class Api {
     static url = 'http://localhost:8080'
 
+    static loginInfoKey = 'ApiUserInfo'
     static loginInfo
     static userInfo
 
@@ -15,6 +16,22 @@ export default class Api {
             },
             data: registrationInfo
         }).then(responseHandler).catch(errorHandler)
+    }
+
+    static change(newValue){
+        console.log('Old')
+        console.log(this.value)
+        this.value = newValue
+        console.log('New')
+        console.log(this.value)
+    }
+
+    static setLoginInfo(info){
+        localStorage.setItem(this.loginInfoKey, JSON.stringify(info));
+    }
+
+    static getLoginInfo(){
+        this.loginInfo = JSON.parse(localStorage.getItem(this.loginInfoKey))
     }
 
     static login(loginInfo, responseHandler, errorHandler){
@@ -32,12 +49,8 @@ export default class Api {
         }).then(responseHandler).catch(errorHandler)
     }
 
-    static setLoginInfo(loginInfo){
-        this.loginInfo = loginInfo
-    }
-
     static getToken(){
-
+        this.getLoginInfo()
         return Buffer.from(`${this.loginInfo.login}:${this.loginInfo.password}`, 'utf8').toString('base64')
     }
 
@@ -62,19 +75,16 @@ export default class Api {
     }
 
     static create_bulletin(bulletinInfo, responseHandler, errorHandler){
-        console.log('Authorization Basic ' + this.getToken())
-
+        this.getLoginInfo()
         axios({
             method: 'post',
-            url: this.url + '/bulletin',
+            url: this.url + '/bulletins',
             headers: {
                 'Authorization': `Basic ${this.getToken()}`
             },
             data:{
                 owner: {
-                    firstName: this.userInfo.firstName,
-                    lastName: this.userInfo.lastName,
-                    login: this.loginInfo,
+                    login: this.loginInfo.login
                 },
                 title: bulletinInfo.title,
                 text: bulletinInfo.text
