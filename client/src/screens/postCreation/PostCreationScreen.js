@@ -3,6 +3,7 @@ import HeaderStub from "../../components/header/HeaderStub";
 import PostForm from "../../components/feed/PostForm";
 import React from "react";
 import Api from "../../utils/Api";
+import AuthorizationChecker from "../../components/authorization/AuthorizationChecker";
 
 class PostCreationScreen extends React.Component{
 
@@ -43,6 +44,7 @@ class PostCreationScreen extends React.Component{
             <div>
                 <MainHeader createIsVisible={false}/>
                 <HeaderStub/>
+                <AuthorizationChecker/>
                 <div>
                     <PostForm
                         onSubmit={this.onFormSubmit}

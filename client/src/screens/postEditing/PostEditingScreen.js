@@ -3,8 +3,9 @@ import HeaderStub from "../../components/header/HeaderStub";
 import PostForm from "../../components/feed/PostForm";
 import React from "react";
 import Api from "../../utils/Api";
+import AuthorizationChecker from "../../components/authorization/AuthorizationChecker";
 
-export default class PostEditingScreenScreen extends React.Component {
+export default class PostEditingScreen extends React.Component {
 
     constructor(props) {
         super(props);
@@ -47,7 +48,7 @@ export default class PostEditingScreenScreen extends React.Component {
             updatedInfo.text,
             ((response) => {
                 if(response.status === 200){
-                    console.log(200)
+                    window.location.href='/feed'
                 }
             }),
             ((error) => {
@@ -60,6 +61,7 @@ export default class PostEditingScreenScreen extends React.Component {
             <div>
                 <MainHeader createIsVisible={false}/>
                 <HeaderStub/>
+                <AuthorizationChecker/>
                 <div className={'app-main-container'}>
                     <PostForm
                         titleName={'Редактирование объявления'}
