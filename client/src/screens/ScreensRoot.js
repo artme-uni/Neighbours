@@ -20,7 +20,7 @@ function ScreensRoot() {
             <Route path='/login' component={LoginScreen}/>
             <Route path='/registration' component={RegistrationScreen}/>
             <Route path='/create' component={PostCreationScreen}/>
-            <Route path='/edit' component={PostEditingScreen}/>
+            <Route path='/edit/:id' component={PostEditingScreen}/>
         </BrowserRouter>
     );
 }

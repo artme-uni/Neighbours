@@ -10,6 +10,8 @@ export default class PostForm extends React.Component {
         this.state = {
             title: null,
             text: null,
+            titleChanged: false,
+            textChanged: false,
             hintMsg: null
         };
 
@@ -18,38 +20,47 @@ export default class PostForm extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    onTitleBulletinChange(event){
+    onTitleBulletinChange(event) {
         this.setState({title: event.target.value})
+        this.setState({titleChanged: true})
     }
 
-    onTextBulletinChange(event){
+    onTextBulletinChange(event) {
         this.setState({text: event.target.value})
+        this.setState({textChanged: true})
     }
 
-    onSubmit(event){
+    async onSubmit(event) {
         event.preventDefault();
 
-        if (this.isFormFilled()) {
+        if (await this.isFormFilled()) {
             this.props.onSubmit(this.getBulletinInfo())
-        }else {
+        } else {
             this.setState({hintMsg: 'Заполните все поля'});
         }
     }
 
-    getBulletinInfo(){
-        return{
+    getBulletinInfo() {
+        return {
             title: this.state.title,
             text: this.state.text
         }
     }
 
-    isFormFilled() {
+    async isFormFilled() {
+        if(!this.state.titleChanged){
+            await this.setState({title: this.props.title})
+        }
+        if(!this.state.textChanged){
+            await this.setState({text: this.props.text})
+        }
+
         return this.state.title && this.state.text;
     }
 
     render() {
         return (
-            <div>{
+            <div>
                 <form
                     className={'app-main-container post-form'}
                     onSubmit={this.onSubmit}>
@@ -59,23 +70,29 @@ export default class PostForm extends React.Component {
                     <h4 className={'post-form-field-name'}>Заголовок объявления</h4>
                     <input type="text"
                            onChange={this.onTitleBulletinChange}
-                           className="post-form-field app-field"
-                           placeholder="Название"/>
+                           className="post-form-field app-field post-form-field-element"
+                           placeholder="Название"
+                           defaultValue={this.props.title ? this.props.title : ''}/>
 
                     <h4 className={'post-form-field-name'}>Описание</h4>
                     <textarea
                         onChange={this.onTextBulletinChange}
                         className="post-form-field  post-form-text app-field"
-                        placeholder="Чем вы хотите поделиться?"/>
+                        placeholder="Чем вы хотите поделиться?"
+                        defaultValue={this.props.text ? this.props.text : ''}/>
 
-                    {   this.props.errorMsg ?
-                        <p className={'app-hint auth-element'}> <b>Ошибка: </b>
+                    {this.props.errorMsg ?
+                        <p className={'app-hint auth-element'}><b>Ошибка: </b>
                             <i>{this.props.errorMsg}!</i></p> : null
                     }
 
-                    <button type="submit" className="app-button">{this.props.buttonName}</button>
+                    {this.state.hintMsg ?
+                        <p className={'app-hint'}><b>Ошибка: </b>
+                            <i>{this.state.hintMsg}!</i></p> : null
+                    }
+
+                    <button type="submit" className="app-button auth-element">{this.props.buttonName}</button>
                 </form>
-            }
             </div>
         );
     }
@@ -89,5 +106,7 @@ PostForm.propTypes = {
     title: PropTypes.string,
     author: PropTypes.string,
     date: PropTypes.string,
-    text: PropTypes.string
+    text: PropTypes.string,
+
+    onSubmit: PropTypes.func
 };

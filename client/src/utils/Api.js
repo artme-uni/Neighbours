@@ -3,8 +3,9 @@ import axios from 'axios';
 export default class Api {
     static url = 'http://localhost:8080'
 
-    static loginInfoKey = 'ApiUserInfo'
+    static loginInfoKey = 'ApiLoginInfo'
     static loginInfo
+    static userInfoKey = 'ApiUserInfo'
     static userInfo
 
     static register(registrationInfo, responseHandler, errorHandler){
@@ -34,6 +35,14 @@ export default class Api {
         this.loginInfo = JSON.parse(localStorage.getItem(this.loginInfoKey))
     }
 
+    static setUserInfo(info){
+        localStorage.setItem(this.userInfoKey, JSON.stringify(info));
+    }
+
+    static loadUserInfo(){
+        this.userInfo = JSON.parse(localStorage.getItem(this.userInfoKey))
+    }
+
     static getLogin(){
         this.loadLoginInfo()
         return this.loginInfo.login
@@ -41,9 +50,6 @@ export default class Api {
 
     static login(loginInfo, responseHandler, errorHandler){
         this.setLoginInfo(loginInfo)
-
-        console.log('Authorization Basic ' + this.getToken())
-
         axios({
             method: 'post',
             url: this.url + '/login',
@@ -51,7 +57,14 @@ export default class Api {
                 'Authorization': `Basic ${this.getToken()}`
             },
             data: loginInfo
-        }).then(responseHandler).catch(errorHandler)
+        }).then(
+            (response) => {
+                if(response.status === 200){
+                    this.setUserInfo(response.data)
+                }
+                responseHandler(response)
+            }
+        ).catch(errorHandler)
     }
 
     static getToken(){
@@ -60,6 +73,7 @@ export default class Api {
     }
 
     static get_all_bulletins(responseHandler, errorHandler){
+        this.loadLoginInfo()
         axios({
             method: 'get',
             url: this.url + '/bulletins',
@@ -69,10 +83,10 @@ export default class Api {
         }).then(responseHandler).catch(errorHandler)
     }
 
-    static get_bulletin(responseHandler, errorHandler, id){
+    static get_bulletin(id, responseHandler, errorHandler){
         axios({
             method: 'get',
-            url: this.url + '/bulletins/{'+id+'}',
+            url: this.url + '/bulletins/'+ id,
             headers: {
                 'Authorization': `Basic ${this.getToken()}`
             },
@@ -97,10 +111,13 @@ export default class Api {
         }).then(responseHandler).catch(errorHandler)
     }
 
-    static update_bulletin(responseHandler, errorHandler, id, text, title){
+    static update_bulletin(id, title, text, responseHandler, errorHandler){
+        this.loadLoginInfo()
+        this.loadUserInfo()
+
         axios({
             method: 'put',
-            url: this.url + '/bulletins/{'+id+'}',
+            url: this.url + '/bulletins/' + id,
             headers: {
                 'Authorization': `Basic ${this.getToken()}`
             },
@@ -109,7 +126,7 @@ export default class Api {
                 owner: {
                     firstName: this.userInfo.firstName,
                     lastName: this.userInfo.lastName,
-                    login: this.loginInfo,
+                    login: this.loginInfo.login,
                 },
                 text: text,
                 title: title
