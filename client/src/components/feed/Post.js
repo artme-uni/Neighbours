@@ -2,8 +2,26 @@ import React from 'react'
 import './Feed.css'
 import PropTypes from 'prop-types';
 import {Dropdown} from 'react-bootstrap';
+import Api from "../../utils/Api";
 
 export default class Post extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.self_destruction = this.self_destruction.bind(this);
+    }
+
+    self_destruction(){
+        Api.delete_bulletin(this.props.id, ((response) => {
+                if(response.status === 200){
+                    window.location.href='/feed'
+                }
+            }),
+            ((error) => {
+                console.log(error)
+            }))
+    }
 
     render() {
         return (
@@ -32,7 +50,7 @@ export default class Post extends React.Component {
                                 Редактировать
                             </Dropdown.Item>
 
-                            <Dropdown.Item className={'feed-post-dropdown-element'}>
+                            <Dropdown.Item className={'feed-post-dropdown-element'} onClick={this.self_destruction}>
                                 Удалить
                             </Dropdown.Item>
 

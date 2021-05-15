@@ -133,4 +133,14 @@ export default class Api {
             }
         }).then(responseHandler).catch(errorHandler)
     }
+
+    static delete_bulletin(id, responseHandler, errorHandler){
+        axios({
+            method: 'delete',
+            url: this.url + '/bulletins/'+ id,
+            headers: {
+                'Authorization': `Basic ${this.getToken()}`
+            },
+        }).then(responseHandler).catch(errorHandler)
+    }
 }
