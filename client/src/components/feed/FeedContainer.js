@@ -3,6 +3,7 @@ import './Feed.css'
 import PropTypes from 'prop-types';
 
 import Post from "./Post";
+import Api from "../../utils/Api";
 
 export default class FeedContainer extends React.Component {
 
@@ -12,7 +13,9 @@ export default class FeedContainer extends React.Component {
 
                 {this.props.posts.map(post =>
                     <div  key={post.id}   className={'feed-container-element'}>
-                        <Post title={post.title} text={post.text}/>
+                        <Post id={post.id} title={post.title} text={post.text} date={post.publicationDate}
+                              author={post.owner.firstName + " " + post.owner.lastName}
+                        isEditable={post.owner.login === Api.getLogin()}/>
                     </div>
                 )}
 
