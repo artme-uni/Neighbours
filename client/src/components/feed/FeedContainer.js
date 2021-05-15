@@ -11,8 +11,8 @@ export default class FeedContainer extends React.Component {
             <div className={'app-main-container'}>
 
                 {this.props.posts.map(post =>
-                    <div className={'feed-container-element'}>
-                        <Post posе ={post}/>
+                    <div  key={post.id}   className={'feed-container-element'}>
+                        <Post title={post.title} text={post.text}/>
                     </div>
                 )}
 

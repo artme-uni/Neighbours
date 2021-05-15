@@ -13,10 +13,10 @@ export default class Post extends React.Component {
                     {this.props.title}
                 </h3>
 
-                <div>
-                    <text className={'feed-post-date'}>{this.props.date} {' | '}</text>
-                    <b className={'feed-post-author'}>{this.props.author}</b>
-                </div>
+                {/*<div>*/}
+                {/*    <text className={'feed-post-date'}>{this.props.date} {' | '}</text>*/}
+                {/*    <b className={'feed-post-author'}>{this.props.author}</b>*/}
+                {/*</div>*/}
 
                 <div className={'feed-post-text'}>
                     {this.props.text}
@@ -48,8 +48,8 @@ export default class Post extends React.Component {
 
 Post.propTypes = {
     title: PropTypes.string,
-    author: PropTypes.string,
-    date: PropTypes.string,
+    // author: PropTypes.string,
+    // date: PropTypes.string,
     text: PropTypes.string,
     isEditable: PropTypes.bool
 };
