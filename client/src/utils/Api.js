@@ -135,9 +135,11 @@ export default class Api {
     }
 
     static delete_bulletin(id, responseHandler, errorHandler){
+        console.log("Axios: try to DELETE bulletin#" + id);
+        console.log(this.url + '/bulletins/'+ id);
         axios({
-            method: 'delete',
-            url: this.url + '/bulletins/'+ id,
+            method: 'DELETE',
+            url: this.url + '/bulletins/${id}',
             headers: {
                 'Authorization': `Basic ${this.getToken()}`
             },

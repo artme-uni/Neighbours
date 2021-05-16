@@ -15,12 +15,16 @@ export default class Post extends React.Component {
     self_destruction(){
         Api.delete_bulletin(this.props.id, ((response) => {
                 if(response.status === 200){
+                    console.log("successfully deleted");
                     window.location.href='/feed'
+                }
+                else{
+                    console.log("STATUS:" + response.status);
                 }
             }),
             ((error) => {
                 console.log(error)
-            }))
+            }));
     }
 
     render() {
