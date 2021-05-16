@@ -3,6 +3,7 @@ import MainHeader from "../../components/header/MainHeader";
 import HeaderStub from "../../components/header/HeaderStub";
 import React from 'react'
 import AuthorizationChecker from "../../components/authorization/AuthorizationChecker";
+import Api from "../../utils/Api";
 
 function MessengerScreen() {
     return (
@@ -11,7 +12,8 @@ function MessengerScreen() {
             <HeaderStub/>
             <AuthorizationChecker/>
             <div className={"messenger"}>
-                <h1>Hello, it's a messenger screen!</h1>
+                {Api.isLogged() ?
+                    <h1>Hello, it's a messenger screen!</h1> : null}
             </div>
         </div>
     );

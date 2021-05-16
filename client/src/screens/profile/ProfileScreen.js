@@ -4,6 +4,7 @@ import HeaderStub from "../../components/header/HeaderStub";
 import React from 'react'
 import ProfileForm from "../../components/authorization/ProfileForm";
 import AuthorizationChecker from "../../components/authorization/AuthorizationChecker";
+import Api from "../../utils/Api"
 
 function ProfileScreen() {
     return (
@@ -12,7 +13,7 @@ function ProfileScreen() {
             <HeaderStub/>
             <AuthorizationChecker/>
             <div className={"profile"}>
-                <ProfileForm />
+                {Api.isLogged() ? <ProfileForm/> : null}
             </div>
         </div>
     );

@@ -9,17 +9,13 @@ export default class Post extends React.Component {
     constructor(props) {
         super(props);
 
-        this.self_destruction = this.self_destruction.bind(this);
+        this.selfDestruction = this.selfDestruction.bind(this);
     }
 
-    self_destruction(){
+    selfDestruction(){
         Api.delete_bulletin(this.props.id, ((response) => {
                 if(response.status === 200){
-                    console.log("successfully deleted");
                     window.location.href='/feed'
-                }
-                else{
-                    console.log("STATUS:" + response.status);
                 }
             }),
             ((error) => {
@@ -54,7 +50,7 @@ export default class Post extends React.Component {
                                 Редактировать
                             </Dropdown.Item>
 
-                            <Dropdown.Item className={'feed-post-dropdown-element'} onClick={this.self_destruction}>
+                            <Dropdown.Item className={'feed-post-dropdown-element'} onClick={this.selfDestruction}>
                                 Удалить
                             </Dropdown.Item>
 
@@ -66,13 +62,12 @@ export default class Post extends React.Component {
     }
 }
 
-
-
 Post.propTypes = {
     id: PropTypes.string,
     title: PropTypes.string,
     author: PropTypes.string,
     date: PropTypes.string,
     text: PropTypes.string,
-    isEditable: PropTypes.bool
+    isEditable: PropTypes.bool,
+
 };

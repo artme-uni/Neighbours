@@ -63,13 +63,13 @@ export default class PostEditingScreen extends React.Component {
                 <HeaderStub/>
                 <AuthorizationChecker/>
                 <div className={'app-main-container'}>
+                    {Api.isLogged() ?
                     <PostForm
                         titleName={'Редактирование объявления'}
                         buttonName={'Обновить'}
                         title={this.state.postInfo.title}
                         text={this.state.postInfo.text}
-                        onSubmit={this.onSubmit}
-                    />
+                        onSubmit={this.onSubmit} /> : null}
                 </div>
             </div>
         );

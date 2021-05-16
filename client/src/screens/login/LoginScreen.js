@@ -13,11 +13,11 @@ export default class LoginScreen extends Component {
 
     constructor(props) {
         super(props);
+        Api.clearInfo()
         this.onFormSubmit = this.onFormSubmit.bind(this);
     }
 
     onFormSubmit(userInfo) {
-
         Api.login(userInfo,
             ((response) => {
                 if(response.status === 200){
@@ -25,8 +25,10 @@ export default class LoginScreen extends Component {
                 }
             }),
             ((error) => {
+                Api.clearInfo()
                 if(error.response.status === 401){
                     this.setState({errorMsg : 'Неверный логин или пароль' })
+                    console.log('err')
                 }
             }))
     }

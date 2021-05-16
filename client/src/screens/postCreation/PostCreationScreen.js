@@ -46,11 +46,12 @@ class PostCreationScreen extends React.Component{
                 <HeaderStub/>
                 <AuthorizationChecker/>
                 <div>
+                    {Api.isLogged() ?
                     <PostForm
                         onSubmit={this.onFormSubmit}
                         errorMsg={this.state.errorMsg}
                         titleName={'Создание объявления'}
-                        buttonName={'Создать'}/>
+                        buttonName={'Создать'}/> : null}
                 </div>
             </div>
         );

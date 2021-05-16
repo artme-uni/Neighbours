@@ -4,11 +4,11 @@ export default class Api {
     static url = 'http://localhost:8080'
 
     static loginInfoKey = 'ApiLoginInfo'
-    static loginInfo
+    static loginInfo = null
     static userInfoKey = 'ApiUserInfo'
-    static userInfo
+    static userInfo = null
 
-    static register(registrationInfo, responseHandler, errorHandler){
+    static register(registrationInfo, responseHandler, errorHandler) {
         axios({
             method: 'post',
             url: this.url + '/register',
@@ -19,37 +19,43 @@ export default class Api {
         }).then(responseHandler).catch(errorHandler)
     }
 
-    static setLoginInfo(info){
-        localStorage.setItem(this.loginInfoKey, JSON.stringify(info));
+    static async setLoginInfo(info) {
+        await localStorage.setItem(this.loginInfoKey, JSON.stringify(info));
     }
 
-    static loadLoginInfo(){
+    static loadLoginInfo() {
+        console.log('load login')
         this.loginInfo = JSON.parse(localStorage.getItem(this.loginInfoKey))
     }
 
-    static setUserInfo(info){
+    static setUserInfo(info) {
         localStorage.setItem(this.userInfoKey, JSON.stringify(info));
     }
 
-    static loadUserInfo(){
+    static loadUserInfo() {
+        console.log('load user')
         this.userInfo = JSON.parse(localStorage.getItem(this.userInfoKey))
     }
 
-    static clearInfo(){
+    static clearInfo() {
         localStorage.clear()
     }
 
-    static isLogged(){
+    static isLogged() {
+        this.loadLoginInfo()
         return !!this.loginInfo;
     }
 
-    static getLogin(){
+    static getLogin() {
         this.loadLoginInfo()
         return this.loginInfo.login
     }
 
-    static login(loginInfo, responseHandler, errorHandler){
-        this.setLoginInfo(loginInfo)
+    static async login(loginInfo, responseHandler, errorHandler) {
+        await this.setLoginInfo(loginInfo)
+        console.log(loginInfo)
+        console.log(this.getToken())
+
         axios({
             method: 'post',
             url: this.url + '/login',
@@ -59,7 +65,7 @@ export default class Api {
             data: loginInfo
         }).then(
             (response) => {
-                if(response.status === 200){
+                if (response.status === 200) {
                     this.setUserInfo(response.data)
                 }
                 responseHandler(response)
@@ -67,12 +73,12 @@ export default class Api {
         ).catch(errorHandler)
     }
 
-    static getToken(){
+    static getToken() {
         this.loadLoginInfo()
         return Buffer.from(`${this.loginInfo.login}:${this.loginInfo.password}`, 'utf8').toString('base64')
     }
 
-    static get_all_bulletins(responseHandler, errorHandler){
+    static getAllBulletins(responseHandler, errorHandler) {
         this.loadLoginInfo()
         axios({
             method: 'get',
@@ -83,17 +89,17 @@ export default class Api {
         }).then(responseHandler).catch(errorHandler)
     }
 
-    static get_bulletin(id, responseHandler, errorHandler){
+    static get_bulletin(id, responseHandler, errorHandler) {
         axios({
             method: 'get',
-            url: this.url + '/bulletins/'+ id,
+            url: this.url + '/bulletins/' + id,
             headers: {
                 'Authorization': `Basic ${this.getToken()}`
             },
         }).then(responseHandler).catch(errorHandler)
     }
 
-    static create_bulletin(bulletinInfo, responseHandler, errorHandler){
+    static create_bulletin(bulletinInfo, responseHandler, errorHandler) {
         this.loadLoginInfo()
         axios({
             method: 'post',
@@ -101,7 +107,7 @@ export default class Api {
             headers: {
                 'Authorization': `Basic ${this.getToken()}`
             },
-            data:{
+            data: {
                 owner: {
                     login: this.loginInfo.login
                 },
@@ -111,7 +117,7 @@ export default class Api {
         }).then(responseHandler).catch(errorHandler)
     }
 
-    static update_bulletin(id, title, text, responseHandler, errorHandler){
+    static update_bulletin(id, title, text, responseHandler, errorHandler) {
         this.loadLoginInfo()
         this.loadUserInfo()
 
@@ -121,7 +127,7 @@ export default class Api {
             headers: {
                 'Authorization': `Basic ${this.getToken()}`
             },
-            data:{
+            data: {
                 id: id,
                 owner: {
                     firstName: this.userInfo.firstName,
@@ -134,12 +140,10 @@ export default class Api {
         }).then(responseHandler).catch(errorHandler)
     }
 
-    static delete_bulletin(id, responseHandler, errorHandler){
-        console.log("Axios: try to DELETE bulletin#" + id);
-        console.log(this.url + '/bulletins/'+ id);
+    static delete_bulletin(id, responseHandler, errorHandler) {
         axios({
-            method: 'DELETE',
-            url: this.url + '/bulletins/${id}',
+            method: 'delete',
+            url: this.url + '/bulletins/' + id,
             headers: {
                 'Authorization': `Basic ${this.getToken()}`
             },
