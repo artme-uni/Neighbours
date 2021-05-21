@@ -1,0 +1,22 @@
+.message-incoming, .message-outgoing{
+    border: 1px solid #B0B0B0;
+    border-radius: 10px;
+    padding: 5px 15px;
+    margin: 0 0 0 10px;
+    text-align: left;
+    background-color: white;
+}
+
+.message-outgoing {
+    margin-left: auto;
+    border: 1px solid #48319b;
+}
+
+.message-incoming {
+}
+
+.message-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}

@@ -4,7 +4,7 @@ import HeaderStub from "../../components/header/HeaderStub";
 import React from 'react'
 import AuthorizationChecker from "../../components/authorization/AuthorizationChecker";
 import Api from "../../utils/Api";
-import DialogsContainer from "../../components/messenger/DialogsContainer";
+import DialogsContainer from "../../components/messenger/dialogs/DialogsContainer";
 
 export default class MessengerScreen extends React.Component {
 
@@ -14,16 +14,16 @@ export default class MessengerScreen extends React.Component {
             {id: '2', title: 'Валентин Павлович', lastMessage: {text: "Да, согласен", date: "22.04.2021"}},
             {id: '3', title: 'Новоселье в 25кв', lastMessage: {text: "Жду всех завтра после 18:00 у себя. Берите с собой друзей и хорошее настроение, с меня праздничный ужин!", date: "22.04.2021"}},
             {id: '4', title: 'Дмитрий Кораблев', lastMessage: {text: "Ну так что, идем завтра?", date: "22.04.2021"}},
-            {id: '5', title: 'Test', lastMessage: {text: "test", date: "22.04.2021"}},
-            {id: '5', title: 'Test', lastMessage: {text: "test", date: "22.04.2021"}},
-            {id: '5', title: 'Test', lastMessage: {text: "test", date: "22.04.2021"}},
-            {id: '5', title: 'Test', lastMessage: {text: "test", date: "22.04.2021"}},
-            {id: '5', title: 'Test', lastMessage: {text: "test", date: "22.04.2021"}},
-            {id: '5', title: 'Test', lastMessage: {text: "test", date: "22.04.2021"}},
-            {id: '5', title: 'Test', lastMessage: {text: "test", date: "22.04.2021"}},
-            {id: '5', title: 'Test', lastMessage: {text: "test", date: "22.04.2021"}},
-            {id: '5', title: 'Test', lastMessage: {text: "test", date: "22.04.2021"}},
-            {id: '5', title: 'Test', lastMessage: {text: "test", date: "22.04.2021"}},
+            {id: '5', title: 'Test17', lastMessage: {text: "test", date: "22.04.2021"}},
+            {id: '6', title: 'Test29', lastMessage: {text: "test", date: "22.04.2021"}},
+            {id: '7', title: 'Test33', lastMessage: {text: "test", date: "22.04.2021"}},
+            {id: '8', title: 'Test42', lastMessage: {text: "test", date: "22.04.2021"}},
+            {id: '9', title: 'Test56', lastMessage: {text: "test", date: "22.04.2021"}},
+            {id: '10', title: 'Test63', lastMessage: {text: "test", date: "22.04.2021"}},
+            {id: '11', title: 'Test71', lastMessage: {text: "test", date: "22.04.2021"}},
+            {id: '12', title: 'Test83', lastMessage: {text: "test", date: "22.04.2021"}},
+            {id: '13', title: 'Test98', lastMessage: {text: "test", date: "22.04.2021"}},
+            {id: '14', title: 'Test10', lastMessage: {text: "test", date: "22.04.2021"}},
         ]
 
         return (

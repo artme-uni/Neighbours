@@ -12,6 +12,7 @@ export default class DialogsContainer extends React.Component {
             dialogsLoadStep : 5
         }
         this.increaseDialogsCount = this.increaseDialogsCount.bind(this);
+        this.onClickChat = this.onClickChat.bind(this);
     }
 
     increaseDialogsCount(){
@@ -20,11 +21,18 @@ export default class DialogsContainer extends React.Component {
         })
     }
 
+    onClickChat(id){
+        window.location.href='/chat/' + id
+    }
+
     render() {
         return (
             <div className={'app-main-container'}>
                 {this.props.dialogs.slice(0, this.state.dialogsCount).map(dialog =>
-                    <button  key={dialog.id} className={'dialogs-previews-container'}>
+                    <button
+                        key={dialog.id}
+                        onClick={() => this.onClickChat(dialog.id)}
+                        className={'dialogs-previews-container'}>
                         <DialogPreview title={dialog.title} lastMessage={dialog.lastMessage}/>
                     </button>
                 )}

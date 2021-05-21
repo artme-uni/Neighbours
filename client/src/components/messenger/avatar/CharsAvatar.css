@@ -1,0 +1,23 @@
+.avatars-big, .avatars-small{
+    border-radius: 50%;
+    text-align: center;
+    color: white;
+}
+
+.avatars-big {
+    min-width: 46px;
+    height: 46px;
+
+    padding-top: 11px;
+    font-size: 20px;
+}
+
+.avatars-small {
+    max-width: 38px;
+    min-width: 38px;
+    min-height: 38px;
+    max-height: 38px;
+
+    padding-top: 10px;
+    font-size: 16px;
+}

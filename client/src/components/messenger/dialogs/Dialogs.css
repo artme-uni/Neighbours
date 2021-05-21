@@ -37,7 +37,6 @@
 }
 
 .dialog-preview-title{
-    /*color: #48319b;*/
     font-size: 18pt;
     color: #383838;
 }
@@ -49,17 +48,4 @@
 
     text-decoration: blink;
     color: #727272;
-}
-
-
-.dialog-chars-avatar {
-    min-width: 46px;
-    height: 46px;
-    background: linear-gradient(320deg, rgba(89, 59, 189, 1), rgba(89, 59, 189, 0.7));
-    border-radius: 50%;
-    text-align: center;
-    padding-top: 11px;
-
-    font-size: 20px;
-    color: white;
 }

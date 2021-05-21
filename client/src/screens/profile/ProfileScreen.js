@@ -6,17 +6,17 @@ import ProfileForm from "../../components/authorization/ProfileForm";
 import AuthorizationChecker from "../../components/authorization/AuthorizationChecker";
 import Api from "../../utils/Api"
 
-function ProfileScreen() {
-    return (
-        <div>
-            <MainHeader/>
-            <HeaderStub/>
-            <AuthorizationChecker/>
-            <div className={"profile"}>
-                {Api.isLogged() ? <ProfileForm/> : null}
+export default class ProfileScreen extends React.Component {
+    render() {
+        return (
+            <div>
+                <MainHeader/>
+                <HeaderStub/>
+                <AuthorizationChecker/>
+                <div className={"profile"}>
+                    {Api.isLogged() ? <ProfileForm/> : null}
+                </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
-
-export default ProfileScreen;
