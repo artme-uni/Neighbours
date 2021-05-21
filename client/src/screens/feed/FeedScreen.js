@@ -44,7 +44,7 @@ export default class FeedScreen extends React.Component {
     render() {
         return (
             <div>
-                <MainHeader/>
+                <MainHeader createPostIsVisible={true}/>
                 <HeaderStub/>
                 <AuthorizationChecker/>
                 <div>

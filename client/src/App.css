@@ -67,6 +67,14 @@ body {
 
     padding-left: 20px;
     padding-right: 20px;
+}
 
-
+.single-row {
+    height: 1.4em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    position: absolute;
+    width: 100%;
+    padding-right: 20px;
 }

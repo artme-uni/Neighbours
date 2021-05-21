@@ -42,7 +42,7 @@ class PostCreationScreen extends React.Component{
     render() {
         return (
             <div>
-                <MainHeader createIsVisible={false}/>
+                <MainHeader/>
                 <HeaderStub/>
                 <AuthorizationChecker/>
                 <div>

@@ -15,7 +15,7 @@ export default class MainScreen extends React.Component{
     render() {
     return (
         <div>
-            <MainHeader createIsVisible={false}/>
+            <MainHeader/>
             <HeaderStub/>
             <div>
                 <div className={'main-screen-title'}>

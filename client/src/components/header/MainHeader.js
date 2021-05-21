@@ -11,9 +11,13 @@ export default class MainHeader extends Component {
                 <div className={'main-header'}>
                     <a className={'main-header-name'} href="/">Neighbours</a>
 
-                    <div className={'main-header-navbar-cozntainer'}>
-                        {this.props.createIsVisible ?
-                        <a className={'main-header-big-links'} href={'/create'}>Создать</a> : null}
+                    <div className={'main-header-navbar-container'}>
+                        {this.props.createPostIsVisible ?
+                        <a className={'main-header-big-links'} href={'/create'}>Создать объвление</a> : null}
+
+                        {this.props.addChatIsVisible ?
+                            <a className={'main-header-big-links'} href={'/create'}>Добавить чат</a> : null}
+
 
                         <a className={'main-header-simple-link'} href={'/feed'}>Объявления</a>
                         <a className={'main-header-simple-link'} href={'/messenger'}>Мессенджер</a>
@@ -29,9 +33,11 @@ export default class MainHeader extends Component {
 
 
 MainHeader.propTypes = {
-    createIsVisible: PropTypes.bool,
+    createPostIsVisible: PropTypes.bool,
+    addChatIsVisible: PropTypes.bool,
 };
 
 MainHeader.defaultProps = {
-    createIsVisible: true
+    createPostIsVisible: false,
+    addChatIsVisible: false
 };
