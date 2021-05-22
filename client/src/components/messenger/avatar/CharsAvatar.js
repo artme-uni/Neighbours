@@ -8,13 +8,6 @@ export default class CharsAvatar extends React.Component {
         super(props);
         this.state = {
             colors: [
-                //Тема 2
-                // "101, 212, 151",
-                // "214, 206, 115",
-                // "35, 69, 165",
-                // "144, 130, 217",
-                // "233, 193, 232"
-                //Тема 3
                 "255, 85, 77",
                 "255, 164, 37",
                 "255, 203, 38",

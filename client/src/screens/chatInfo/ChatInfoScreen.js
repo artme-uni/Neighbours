@@ -7,7 +7,29 @@ import ChatInfo from "../../components/messenger/info/ChatInfo";
 
 export default class ChatInfoScreen extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.getChatID = this.getChatID.bind(this);
+        this.onBackButton = this.onBackButton.bind(this);
+    }
+
+    getChatID(){
+        return parseInt(this.props.match.params.id)
+    }
+
+    onBackButton(){
+        window.location.href = "/chat/" + this.getChatID()
+    }
+
     render() {
+        const members = [
+            {id:"1", name: "Максим Пронин"},
+            {id:"2", name: "Артур Шарифов"},
+            {id:"3", name: "Test"},
+            {id:"4", name: "Артем Кононов"},
+            {id:"5", name: "Валентин Павлович"},
+        ]
+
         return (
             <div>
                 <MainHeader/>
@@ -15,7 +37,7 @@ export default class ChatInfoScreen extends React.Component {
                 <AuthorizationChecker/>
 
                 {Api.isLogged() ?
-                    <ChatInfo/>
+                    <ChatInfo title={"ул. Пирогова, 2"} members={members} onBackButton={this.onBackButton}/>
                     : null}
             </div>);
     }

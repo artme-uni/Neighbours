@@ -68,7 +68,7 @@ export default class Chat extends React.Component {
                             <button
                                 className={'app-button'}
                                 onClick={() => (window.location.href = "/chat-info/" + this.props.chatID)}>
-                                Редактировать чат{' | ' + this.props.title.toUpperCase()}
+                                Редактировать чат
                             </button>
                         </div>
                     </div>
