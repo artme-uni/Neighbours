@@ -25,8 +25,10 @@ public class RoomService {
     private final MessageMapper messageMapper;
     private final SimpMessageSendingOperations messagingTemplate;
 
-    public RoomService(RoomRepository roomRepository, RoomMapper roomMapper,
-                       UserRepository userRepository, MessageMapper messageMapper,
+    public RoomService(RoomRepository roomRepository,
+                       RoomMapper roomMapper,
+                       UserRepository userRepository,
+                       MessageMapper messageMapper,
                        SimpMessageSendingOperations messagingTemplate) {
         this.roomRepository = roomRepository;
         this.roomMapper = roomMapper;
@@ -57,10 +59,7 @@ public class RoomService {
         if (!room.getUsers().contains(user)) {
             room.addUser(user);
 
-            Message joinMessage = new Message();
-            joinMessage.setType(MessageType.JOIN);
-            joinMessage.setFirstName(userRoomKey.getFirstName());
-            joinMessage.setLastName(userRoomKey.getLastName());
+            Message joinMessage = createMessage(userRoomKey, MessageType.JOIN);
             MessageDto joinMessageDto = messageMapper.messageToMessageDto(joinMessage);
             sendMessageDtoToMessages(room.getId(), joinMessageDto);
 
@@ -78,10 +77,7 @@ public class RoomService {
         User user = userRepository.findUserByLogin(userRoomKey.getLogin());
         Room room = roomRepository.findRoomById(userRoomKey.getRoomId());
 
-        Message leaveMessage = new Message();
-        leaveMessage.setType(MessageType.LEAVE);
-        leaveMessage.setFirstName(userRoomKey.getFirstName());
-        leaveMessage.setLastName(userRoomKey.getLastName());
+        Message leaveMessage = createMessage(userRoomKey, MessageType.LEAVE);
         MessageDto leaveMessageDto = messageMapper.messageToMessageDto(leaveMessage);
         sendMessageDtoToMessages(room.getId(), leaveMessageDto);
 
@@ -93,6 +89,14 @@ public class RoomService {
         sendRoomDtoToUserList(room.getId(), roomDto);
 
         return roomDto;
+    }
+
+    private Message createMessage(UserRoomKeyDto userRoomKey, MessageType type) {
+        var message = new Message();
+        message.setType(type);
+        message.setFirstName(userRoomKey.getFirstName());
+        message.setLastName(userRoomKey.getLastName());
+        return message;
     }
 
     public void sendMessageDtoToMessages(Long roomId, MessageDto messageDto) {

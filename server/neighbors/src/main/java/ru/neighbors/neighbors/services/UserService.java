@@ -1,7 +1,6 @@
 package ru.neighbors.neighbors.services;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +20,6 @@ import java.util.Base64;
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, UserMapper userMapper) {

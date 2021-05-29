@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,11 +16,9 @@ import java.util.List;
 @Slf4j
 public class ChatController {
     private final RoomService roomService;
-    private final SimpMessageSendingOperations messagingTemplate;
 
-    public ChatController(RoomService roomService, SimpMessageSendingOperations messagingTemplate) {
+    public ChatController(RoomService roomService) {
         this.roomService = roomService;
-        this.messagingTemplate = messagingTemplate;
     }
 
     @SubscribeMapping("/chat/roomList")
