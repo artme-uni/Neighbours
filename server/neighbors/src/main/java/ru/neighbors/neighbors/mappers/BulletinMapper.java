@@ -5,7 +5,8 @@ import org.mapstruct.MappingTarget;
 import ru.neighbors.neighbors.dto.BulletinDto;
 import ru.neighbors.neighbors.entities.Bulletin;
 
-@Mapper(componentModel = "spring", uses = UserMapper.class)
+@Mapper(componentModel = "spring", uses = UserMapper.class,
+        imports = {Bulletin.class, BulletinDto.class})
 public interface BulletinMapper {
     BulletinDto bulletinToBulletinDto(Bulletin bulletin);
 
