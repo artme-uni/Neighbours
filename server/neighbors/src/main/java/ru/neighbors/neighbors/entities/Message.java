@@ -17,7 +17,8 @@ public class Message {
 
     @Enumerated(EnumType.STRING)
     private MessageType type;
-    private String username;
+    private String firstName;
+    private String lastName;
     private String text;
     @ManyToOne
     @JoinColumn(name = "room_id")

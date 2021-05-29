@@ -33,4 +33,6 @@ public class Room {
     public void removeUser(User user) {
         this.users.remove(user);
     }
+
+    public void addMessage(Message message) { this.messages.add(message); }
 }
