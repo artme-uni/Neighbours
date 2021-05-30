@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -26,6 +25,6 @@ public class User {
     private String login;
     private String password;
 
-    @ManyToMany
-    private Set<Room> rooms = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Room> rooms;
 }

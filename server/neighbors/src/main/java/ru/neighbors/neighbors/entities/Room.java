@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -21,10 +20,10 @@ public class Room {
     private String city;
     private String street;
     private Integer houseNumber;
-    @ManyToMany
-    private Set<User> users = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<User> users;
     @OneToMany(mappedBy = "room")
-    private Set<Message> messages = new HashSet<>();
+    private Set<Message> messages;
 
     public void addUser(User user) {
         this.users.add(user);
@@ -34,5 +33,7 @@ public class Room {
         this.users.remove(user);
     }
 
-    public void addMessage(Message message) { this.messages.add(message); }
+    public void addMessage(Message message) {
+        this.messages.add(message);
+    }
 }
