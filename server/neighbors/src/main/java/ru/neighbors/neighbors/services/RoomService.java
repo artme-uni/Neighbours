@@ -81,6 +81,7 @@ public class RoomService {
             room.addUser(user);
 
             Message joinMessage = createMessage(userRoomKey, MessageType.JOIN);
+            joinMessage.setRoom(room);
             MessageDto joinMessageDto = messageMapper.messageToMessageDto(joinMessage);
             sendMessageDtoToMessages(room.getId(), joinMessageDto);
 
@@ -114,6 +115,7 @@ public class RoomService {
 
     private Message createMessage(UserRoomKeyDto userRoomKey, MessageType type) {
         var message = new Message();
+        message.setDateTime(OffsetDateTime.now());
         message.setMessageType(type);
         message.setFirstName(userRoomKey.getFirstName());
         message.setLastName(userRoomKey.getLastName());
@@ -122,9 +124,10 @@ public class RoomService {
 
     public void sendMessageDtoToMessages(Long roomId, MessageDto messageDto) {
         messageDto.setDateTime(OffsetDateTime.now());
-        Room room = roomRepository.findRoomById(roomId)
-                .orElseThrow();
-        room.addMessage(messageMapper.messageDtoToMessage(messageDto));
+        Room room = roomRepository.findRoomById(roomId).orElseThrow();
+        var message = messageMapper.messageDtoToMessage(messageDto);
+        message.setRoom(room);
+        room.addMessage(message);
         roomRepository.save(room);
         log.info("New message has just added:{}", messageDto);
         messagingTemplate.convertAndSend(format("/chat/%s/messages", roomId), messageDto);

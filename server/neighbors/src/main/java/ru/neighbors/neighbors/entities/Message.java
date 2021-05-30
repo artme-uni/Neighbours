@@ -21,7 +21,7 @@ public class Message {
     private String lastName;
     private String text;
     private OffsetDateTime dateTime;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "room_id")
     private Room room;
 }

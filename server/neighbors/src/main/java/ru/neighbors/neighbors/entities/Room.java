@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -22,7 +23,7 @@ public class Room {
     private Integer houseNumber;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> users;
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Message> messages;
 
     public void addUser(User user) {
@@ -35,5 +36,24 @@ public class Room {
 
     public void addMessage(Message message) {
         this.messages.add(message);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Room)) return false;
+        Room room = (Room) o;
+        return id.equals(room.id)
+                && roomName.equals(room.roomName)
+                && city.equals(room.city)
+                && street.equals(room.street)
+                && houseNumber.equals(room.houseNumber)
+                && users.equals(room.users)
+                && messages.equals(room.messages);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

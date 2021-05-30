@@ -6,7 +6,7 @@ import ru.neighbors.neighbors.dto.RoomDto;
 import ru.neighbors.neighbors.dto.SimpleRoomDto;
 import ru.neighbors.neighbors.entities.Room;
 
-@Mapper(componentModel = "spring", uses = {MessageMapper.class, UserMapper.class})
+@Mapper(componentModel = "spring", uses = UserMapper.class)
 public interface RoomMapper {
     SimpleRoomDto roomToSimpleRoomDto(Room room);
 

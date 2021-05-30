@@ -16,7 +16,7 @@ public class Bulletin {
     @SequenceGenerator(name = "bulletins_seq_gen", sequenceName = "bulletins_id_seq", allocationSize = 1)
     private long id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User owner;
     private String title;
