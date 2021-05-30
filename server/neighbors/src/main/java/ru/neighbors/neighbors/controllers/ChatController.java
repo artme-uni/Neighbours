@@ -37,10 +37,22 @@ public class ChatController {
 
     @PostMapping("/newChatMember")
     public @ResponseBody
-    ResponseEntity<Object> registerNewChatMember(@RequestBody RegisterChatMemberDto chatMemberDto) {
+    ResponseEntity<Object> registerNewChatMember(@RequestBody ChatMemberLoginDto chatMemberDto) {
         log.info("Request to register new member:{}", chatMemberDto);
         try {
             return ResponseEntity.ok(roomService.registerNewChatMember(chatMemberDto));
+        } catch (ChatMemberException e) {
+            log.error(e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
+
+    @PostMapping("/removeChatMember")
+    public @ResponseBody
+    ResponseEntity<Object> removeChatMember(@RequestBody ChatMemberLoginDto chatMemberDto) {
+        log.info("Request to remove member:{}", chatMemberDto);
+        try {
+            return ResponseEntity.ok(roomService.removeChatMember(chatMemberDto));
         } catch (ChatMemberException e) {
             log.error(e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.CONFLICT).build();

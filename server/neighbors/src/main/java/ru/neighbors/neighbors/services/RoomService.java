@@ -138,7 +138,7 @@ public class RoomService {
         messagingTemplate.convertAndSend(format("/chat/%s/userList", roomId), roomDto);
     }
 
-    public ChatMembersDto registerNewChatMember(RegisterChatMemberDto chatMemberDto) throws ChatMemberException {
+    public ChatMembersDto registerNewChatMember(ChatMemberLoginDto chatMemberDto) throws ChatMemberException {
         Room room = roomRepository.findRoomById(chatMemberDto.getRoomId()).orElseThrow();
         User user = userRepository.findUserByLogin(chatMemberDto.getLogin()).orElseThrow();
 
@@ -147,6 +147,23 @@ public class RoomService {
         }
 
         room.addUser(user);
+        roomRepository.save(room);
+        List<UserRoomDto> userRoomDtos = room.getUsers()
+                .stream()
+                .map(userMapper::userToUserRoomDto)
+                .collect(Collectors.toList());
+        return new ChatMembersDto(userRoomDtos);
+    }
+
+    public ChatMembersDto removeChatMember(ChatMemberLoginDto chatMemberDto) throws ChatMemberException {
+        Room room = roomRepository.findRoomById(chatMemberDto.getRoomId()).orElseThrow();
+        User user = userRepository.findUserByLogin(chatMemberDto.getLogin()).orElseThrow();
+
+        if (!room.getUsers().contains(user)) {
+            throw new ChatMemberException("User(" + user + ") doesn't exist in this room:" + room);
+        }
+
+        room.removeUser(user);
         roomRepository.save(room);
         List<UserRoomDto> userRoomDtos = room.getUsers()
                 .stream()
