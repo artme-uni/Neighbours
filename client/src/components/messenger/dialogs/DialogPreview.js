@@ -15,11 +15,11 @@ export default class DialogPreview extends React.Component {
                     </h3>
 
                     <text className={'dialogs-preview-date'}>
-                        {this.props.lastMessage.date} 
+                        31.05.2021
                     </text>
 
                     <div>
-                        <text className={'single-row'}> {this.props.lastMessage.text} </text>
+                        <text className={'single-row'}> {this.props.lastMessage} </text>
                     </div>
                 </div>
             </div>
@@ -29,5 +29,5 @@ export default class DialogPreview extends React.Component {
 
 DialogPreview.propTypes = {
     title: PropTypes.string,
-    lastMessage: PropTypes.object
+    lastMessage: PropTypes.string
 };

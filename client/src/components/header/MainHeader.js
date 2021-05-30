@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import './MainHeader.css'
 import PropTypes from 'prop-types';
 
-
 export default class MainHeader extends Component {
 
     render() {
@@ -16,8 +15,7 @@ export default class MainHeader extends Component {
                         <a className={'main-header-big-links'} href={'/create'}>Создать объвление</a> : null}
 
                         {this.props.addChatIsVisible ?
-                            <a className={'main-header-big-links'} href={'/create'}>Добавить чат</a> : null}
-
+                            <a className={'main-header-big-links'} href={'/create-chat'}>Добавить чат</a> : null}
 
                         <a className={'main-header-simple-link'} href={'/feed'}>Объявления</a>
                         <a className={'main-header-simple-link'} href={'/messenger'}>Мессенджер</a>

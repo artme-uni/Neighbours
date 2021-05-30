@@ -32,7 +32,6 @@ export default class FeedScreen extends React.Component {
                         this.setState({errorMsg: 'Неизвестная ошибка'})
                         reject(error)
                     }));
-
             });
         }
     }

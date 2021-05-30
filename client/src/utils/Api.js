@@ -161,8 +161,10 @@ export default class Api {
         }).then(responseHandler).catch(errorHandler)
     }
 
-    static createSockConnection() {
+    static async createSockConnection() {
         this.loadLoginInfo();
+        console.log(this.loginInfo)
+
         let str = `http://${this.getLoginData()}@${this.socketUrl}/ws`
         let sock = new SockJS(str)
         const stompClient = Stomp.over(sock);
@@ -177,13 +179,28 @@ export default class Api {
         })
     }
 
-    static async createNewChatRoom(roomName) {
+    static getRooms(responseHandler, errorHandler){
+        this.loadLoginInfo();
+
+        axios({
+            method: 'get',
+            url: this.url + '/chat/roomList',
+            headers: {
+                'Authorization': `Basic ${this.getToken()}`
+            },
+        }).then(responseHandler).catch(errorHandler)
+    }
+
+    static async createNewChatRoom(roomName, handler) {
         this.loadUserInfo();
+        let body = null
 
         let subscription = await this.stompClient.subscribe('/chat/newRoom', (msg) => {
-            let body = JSON.parse(msg.body)
+            body = JSON.parse(msg.body)
             console.log('New Room !!!! Создана комната ' + body.id)
+            Api.openRoom(body.id)
             subscription.unsubscribe()
+            handler(body.id)
         })
 
         this.stompClient.send("/app/chat/addRoom", JSON.stringify({

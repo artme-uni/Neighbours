@@ -1,0 +1,32 @@
+.chat-form{
+    text-align: left;
+
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    width: 100%;
+}
+
+.chat-form-field-element {
+    margin-bottom: 30px;
+}
+
+.chat-form-element {
+    margin-top: 30px;
+}
+
+.chat-form-field-name {
+    margin-bottom: 10px;
+}
+
+.chat-form-field {
+    width: 100%;
+    resize: none;
+}
+
+.chat-form-text {
+    height: 200px;
+    vertical-align: top;
+}
