@@ -8,6 +8,11 @@ import Chat from "../../components/messenger/chat/Chat";
 
 export default class ChatScreen extends React.Component {
 
+    constructor(props) {
+        super(props);
+        Api.createSockConnection()
+    }
+
     getChatID(){
         return parseInt(this.props.match.params.id)
     }
@@ -41,6 +46,11 @@ export default class ChatScreen extends React.Component {
                         <Chat messages={messages} title={'ул. Пирогова, 2'} chatID={this.getChatID()}/>
                         : null}
                 </div>
+
+                {/*<button onClick={() => Api.createNewChatRoom("Room Boom")}> Create </button>*/}
+                {/*<button onClick={() => Api.openRoom(1)}> Join </button>*/}
+                {/*<button onClick={() => Api.sendMsg(1, "OK")}> Send </button>*/}
+                {/*<button onClick={() => Api.leaveChat(1)}> Leave </button>*/}
             </div>);
     }
 }
