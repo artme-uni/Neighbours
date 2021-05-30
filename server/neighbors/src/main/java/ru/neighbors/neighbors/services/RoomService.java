@@ -12,6 +12,7 @@ import ru.neighbors.neighbors.mappers.RoomMapper;
 import ru.neighbors.neighbors.repositories.RoomRepository;
 import ru.neighbors.neighbors.repositories.UserRepository;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -100,6 +101,7 @@ public class RoomService {
     }
 
     public void sendMessageDtoToMessages(Long roomId, MessageDto messageDto) {
+        messageDto.setDateTime(OffsetDateTime.now());
         messagingTemplate.convertAndSend(format("/chat/%s/messages", roomId), messageDto);
     }
 

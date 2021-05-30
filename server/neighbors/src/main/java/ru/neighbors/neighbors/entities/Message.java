@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 
 @Data
 @NoArgsConstructor
@@ -20,6 +21,7 @@ public class Message {
     private String firstName;
     private String lastName;
     private String text;
+    private OffsetDateTime dateTime;
     @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;

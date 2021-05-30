@@ -7,6 +7,7 @@ import ru.neighbors.neighbors.entities.MessageType;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import java.time.OffsetDateTime;
 
 @Data
 @NoArgsConstructor
@@ -17,4 +18,5 @@ public class MessageDto {
     private String firstName;
     private String lastName;
     private String text;
+    private OffsetDateTime dateTime;
 }
