@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.neighbors.neighbors.dto.*;
 import ru.neighbors.neighbors.services.RoomService;
 import ru.neighbors.neighbors.services.exceptions.ChatMemberException;
+import ru.neighbors.neighbors.services.exceptions.IllegalChatNameException;
 
 import java.security.Principal;
 import java.util.List;
@@ -35,10 +36,10 @@ public class ChatController {
         return roomService.getUsersByAddress(addressDto);
     }
 
-    @PostMapping("/newChatMember")
+    @PostMapping("/addChatMember")
     public @ResponseBody
     ResponseEntity<Object> registerNewChatMember(@RequestBody ChatMemberLoginDto chatMemberDto) {
-        log.info("Request to register new member:{}", chatMemberDto);
+        log.info("Request to register new member: {}", chatMemberDto);
         try {
             return ResponseEntity.ok(roomService.registerNewChatMember(chatMemberDto));
         } catch (ChatMemberException e) {
@@ -61,9 +62,15 @@ public class ChatController {
 
     @MessageMapping("/chat/addRoom")
     @SendTo("/chat/newRoom")
-    public SimpleRoomDto createRoom(@RequestBody NewRoomDto newRoomDto) {
+    public @ResponseBody
+    ResponseEntity<SimpleRoomDto> createRoom(@RequestBody NewRoomDto newRoomDto) {
         log.info("Request to create new room:{}", newRoomDto);
-        return roomService.createRoom(newRoomDto);
+        try {
+            return ResponseEntity.ok(roomService.createCustomRoom(newRoomDto));
+        } catch (IllegalChatNameException e) {
+            log.error(e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 
     @MessageMapping("/chat/{roomId}/join")

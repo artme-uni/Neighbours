@@ -4,9 +4,9 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.neighbors.neighbors.dto.LoginRequestUserDto;
 import ru.neighbors.neighbors.dto.LoginResponseUserDto;
+import ru.neighbors.neighbors.dto.NewRoomDto;
 import ru.neighbors.neighbors.dto.RegistrationUserDto;
 import ru.neighbors.neighbors.entities.User;
 import ru.neighbors.neighbors.mappers.UserMapper;
@@ -22,14 +22,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final RoomService roomService;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, UserMapper userMapper,
+                       PasswordEncoder passwordEncoder, RoomService roomService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
+        this.roomService = roomService;
     }
 
-    @Transactional
     public void createUser(@NonNull RegistrationUserDto registrationUserDto) throws UserLoginExistsException {
         User user = userMapper.registrationUserDtoToUser(registrationUserDto);
         if (userRepository.existsUserByLogin(user.getLogin())) {
@@ -38,6 +40,7 @@ public class UserService {
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+        roomService.addUserToHomeRoom(user);
         log.info("User has just successfully registered:{}", registrationUserDto);
     }
 

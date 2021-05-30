@@ -15,10 +15,12 @@ import ru.neighbors.neighbors.mappers.UserMapper;
 import ru.neighbors.neighbors.repositories.RoomRepository;
 import ru.neighbors.neighbors.repositories.UserRepository;
 import ru.neighbors.neighbors.services.exceptions.ChatMemberException;
+import ru.neighbors.neighbors.services.exceptions.IllegalChatNameException;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
@@ -26,6 +28,7 @@ import static java.lang.String.format;
 @Service
 @Slf4j
 public class RoomService {
+    private static final String HOME_ROOM_NAME = "Мой дом";
     private final RoomRepository roomRepository;
     private final RoomMapper roomMapper;
     private final UserMapper userMapper;
@@ -64,13 +67,34 @@ public class RoomService {
                 .collect(Collectors.toList());
     }
 
-    public SimpleRoomDto createRoom(@NonNull NewRoomDto newRoomDto) {
-        Room room = roomMapper.newRoomDtoToRoom(newRoomDto);
-        Objects.requireNonNull(room);
-        roomRepository.save(room);
+    public SimpleRoomDto createCustomRoom(NewRoomDto newRoomDto) throws IllegalChatNameException {
+        if (newRoomDto.getRoomName().equals(HOME_ROOM_NAME)) {
+            throw new IllegalChatNameException("Chat name shouldn't be the same as home chat name");
+        }
+        return createRoom(newRoomDto);
+    }
 
-        log.info("New room jas just created:{}", room);
-        return roomMapper.roomToSimpleRoomDto(room);
+    public void addUserToHomeRoom(User user) {
+        var homeRoomDto = new NewRoomDto();
+        homeRoomDto.setCity(user.getCity());
+        homeRoomDto.setStreet(user.getStreet());
+        homeRoomDto.setHouseNumber(user.getHouseNumber());
+        homeRoomDto.setRoomName(HOME_ROOM_NAME);
+        if (!existsRoom(homeRoomDto)) {
+            createHomeRoom(homeRoomDto);
+            log.info("Home room has been successfully created: {}", homeRoomDto);
+        }
+        Optional<Room> homeRoom = roomRepository
+                .findFirstByRoomNameAndCityAndStreetAndHouseNumber(
+                        homeRoomDto.getRoomName(),
+                        homeRoomDto.getCity(),
+                        homeRoomDto.getStreet(),
+                        homeRoomDto.getHouseNumber());
+        if (homeRoom.isPresent()) {
+            homeRoom.get().addUser(user);
+            roomRepository.save(homeRoom.get());
+            log.info("User {} has been added to home room", user);
+        }
     }
 
     public RoomDto joinRoom(@NonNull UserRoomKeyDto userRoomKey) {
@@ -170,5 +194,28 @@ public class RoomService {
                 .map(userMapper::userToUserRoomDto)
                 .collect(Collectors.toList());
         return new ChatMembersDto(userRoomDtos);
+    }
+
+    private SimpleRoomDto createRoom(@NonNull NewRoomDto newRoomDto){
+        Room room = roomMapper.newRoomDtoToRoom(newRoomDto);
+        Objects.requireNonNull(room);
+        roomRepository.save(room);
+
+        log.info("New room has been created: {}", room);
+        return roomMapper.roomToSimpleRoomDto(room);
+    }
+
+    private boolean existsRoom(NewRoomDto newRoomDto) {
+        Optional<Room> homeRoom = roomRepository
+                .findFirstByRoomNameAndCityAndStreetAndHouseNumber(
+                        newRoomDto.getRoomName(),
+                        newRoomDto.getCity(),
+                        newRoomDto.getStreet(),
+                        newRoomDto.getHouseNumber());
+        return homeRoom.isPresent();
+    }
+
+    private void createHomeRoom(NewRoomDto newRoomDto) {
+        createRoom(newRoomDto);
     }
 }
