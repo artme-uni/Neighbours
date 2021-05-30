@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import './Chat.css'
 import Message from "./Message";
+import Api from "../../../utils/Api";
 
 export default class Chat extends React.Component {
 
@@ -9,9 +10,13 @@ export default class Chat extends React.Component {
         super(props);
         this.state = {
             messagesCount: 10,
-            messageLoadStep: 5
+            messageLoadStep: 5,
+            value: null,
+            currentID: 0
         }
         this.increaseMessageCount = this.increaseMessageCount.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+        this.onFieldChange = this.onFieldChange.bind(this);
     }
 
     increaseMessageCount() {
@@ -22,6 +27,25 @@ export default class Chat extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, window.outerHeight);
+        Api.loadLoginInfo()
+    }
+
+    async onSubmit(event) {
+        event.preventDefault();
+
+        if(!this.state.value || this.state.value === ''){
+            return
+        }
+        Api.sendMsg(this.props.chatID, this.state.value)
+        this.setState({value: ''});
+    }
+
+    onFieldChange(event) {
+        this.setState({value: event.target.value});
+    }
+
+    isOutgoingMessage(message) {
+        return message.firstName === Api.userInfo.firstName && message.lastName === Api.userInfo.lastName
     }
 
     render() {
@@ -44,15 +68,18 @@ export default class Chat extends React.Component {
                             .slice(0, this.state.messagesCount)
                             .reverse()
                             .map(message =>
-                                <div className={'chat-message-container'}>
+                                <div
+                                    className={'chat-message-container'}
+                                    key={message.lastName + message.dateTime}>
+
                                     <div
-                                        className={message.isOutgoingMessage ? 'chat-outgoing-message' : 'chat-incoming-message'}>
-                                        <Message message={message}/>
+                                        className={this.isOutgoingMessage(message) ? 'chat-outgoing-message' : 'chat-incoming-message'}>
+                                        <Message message={message} isOutgoingMessage={this.isOutgoingMessage(message)}/>
                                     </div>
                                 </div>
                             )}
 
-                    <div className={'chat-field-part'}>
+                    <form className={'chat-field-part'} onSubmit={this.onSubmit}>
                         <div className={'chat-field-stub-transition'}>
                         </div>
 
@@ -62,6 +89,8 @@ export default class Chat extends React.Component {
                                 <input
                                     className={'app-field chat-field'}
                                     placeholder={'Введите сообщение'}
+                                    value={this.state.value}
+                                    onChange={this.onFieldChange}
                                 />
                                 <button className={'chat-send-button'}>📨</button>
                             </div>
@@ -71,7 +100,7 @@ export default class Chat extends React.Component {
                                 Редактировать чат
                             </button>
                         </div>
-                    </div>
+                    </form>
 
                     <div className={'chat-field-stub'}>
                     </div>

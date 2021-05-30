@@ -15,6 +15,7 @@
 .dialogs-previews-container:hover {
     background: none;
     border-color: #563bbd;
+    color: #383838;
 }
 
 .dialog-preview-elements {

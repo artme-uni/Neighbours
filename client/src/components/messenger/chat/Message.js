@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import './Messages.css'
 import CharsAvatar from "../avatar/CharsAvatar";
+import Api from "../../../utils/Api";
 
 export default class Message extends React.Component {
 
@@ -12,28 +13,65 @@ export default class Message extends React.Component {
         }
     }
 
+    componentDidMount() {
+        Api.loadUserInfo()
+    }
+
+    getAuthor() {
+        return this.props.message.firstName + " " + this.props.message.lastName
+    }
+
+    getTime(dateTime){
+        let words = dateTime.split('T');
+        return words[1].slice(0,5)
+    }
+
+    renderSimpleMessage() {
+        return this.props.isOutgoingMessage ?
+            <div className={'message-container'}>
+                <div className={'message-outgoing'}>
+                    <text>{this.props.message.text}</text>
+                </div>
+            </div>
+            :
+            <div className={'message-container'}>
+                <CharsAvatar isSmall={true} title={this.getAuthor()}/>
+                <div className={'message-incoming'}>
+                    <div>
+                        <b>{this.getAuthor()} </b>
+                        <text className={'chat-message-date'}>{this.getTime(this.props.message.dateTime)}</text>
+                    </div>
+
+                    <text>{this.props.message.text}</text>
+                </div>
+            </div>
+    }
+
+    renderJoinMessage() {
+        return !this.props.isOutgoingMessage ?
+        <div className={'message-container'}>
+            <div className={'message-incoming'}>
+                {this.getAuthor()} присоединился к чату
+            </div>
+        </div> : null
+    }
+
+
     render() {
         return (
             <div>
-                {this.props.message.isOutgoingMessage ?
-                    <div className={'message-container'}>
-                        <div className={'message-outgoing'}>
-                            <text>{this.props.message.text}</text>
-                        </div>
+                {this.props.message.messageType === "MESSAGE" ?
+                    <div>
+                        {this.renderSimpleMessage()}
                     </div>
-                    :
-                    <div className={'message-container'}>
-                        <CharsAvatar isSmall={true} title={this.props.message.author}/>
-                        <div className={'message-incoming'}>
-                            <div>
-                                <b>{this.props.message.author}  </b>
-                                <text className={'chat-message-date'}>{this.props.message.date}</text>
-                            </div>
+                    : null}
 
-                            <text>{this.props.message.text}</text>
-                        </div>
+                {this.props.message.messageType === "JOIN" ?
+                    <div>
+                        {this.renderJoinMessage()}
                     </div>
-                }
+                    : null}
+
             </div>
         );
     }
@@ -41,5 +79,6 @@ export default class Message extends React.Component {
 }
 
 Message.propTypes = {
-    message: PropTypes.object
+    message: PropTypes.object,
+    isOutgoingMessage: PropTypes.bool
 }

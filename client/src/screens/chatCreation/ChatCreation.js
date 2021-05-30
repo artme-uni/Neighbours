@@ -9,10 +9,6 @@ export default class ChatCreation extends Component {
         errorMsg: null
     }
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div>

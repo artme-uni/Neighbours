@@ -24,7 +24,7 @@ export default class MessengerScreen extends React.Component {
 
     async componentDidMount() {
         if (Api.isLogged()) {
-            Api.createSockConnection()
+            await Api.createSockConnection()
 
             await new Promise((resolve, reject) => {
                 Api.getRooms(((response) => {

@@ -161,7 +161,7 @@ export default class Api {
         }).then(responseHandler).catch(errorHandler)
     }
 
-    static async createSockConnection() {
+    static async createSockConnection(onConnect) {
         this.loadLoginInfo();
         console.log(this.loginInfo)
 
@@ -170,16 +170,18 @@ export default class Api {
         const stompClient = Stomp.over(sock);
 
         stompClient.connect({}, () => {
-            if(this.stompClient){
+            if (this.stompClient) {
                 return
             }
             this.stompClient = stompClient
             this.sock = sock
-            console.log('StompClient INITIALIZED')
+            if (onConnect) {
+                onConnect()
+            }
         })
     }
 
-    static getRooms(responseHandler, errorHandler){
+    static getRooms(responseHandler, errorHandler) {
         this.loadLoginInfo();
 
         axios({
@@ -197,7 +199,6 @@ export default class Api {
 
         let subscription = await this.stompClient.subscribe('/chat/newRoom', (msg) => {
             body = JSON.parse(msg.body)
-            console.log('New Room !!!! Создана комната ' + body.id)
             Api.openRoom(body.id)
             subscription.unsubscribe()
             handler(body.id)
@@ -212,10 +213,10 @@ export default class Api {
 
     }
 
-    static async openRoom(roomNumber){
-        if(this.isInRoom){
+    static async openRoom(roomNumber, getRoomInfo, newMessageHandler) {
+        if (this.isInRoom) {
             return
-        }else {
+        } else {
             this.isInRoom = true
         }
 
@@ -223,8 +224,8 @@ export default class Api {
         this.loadLoginInfo();
 
         let subscription = await this.stompClient.subscribe(`/chat/${roomNumber}/join`, (msg) => {
-            console.log('OPEN CHAT !!!! отобразиии все сообщения')
-            console.log(msg.body)
+            let body = JSON.parse(msg.body)
+            getRoomInfo(body)
             subscription.unsubscribe()
         })
 
@@ -239,19 +240,14 @@ export default class Api {
 
         this.stompClient.subscribe(`/chat/${roomNumber}/messages`, (newMsg) => {
             let body = JSON.parse(newMsg.body)
-            if(body.messageType === "JOIN"){
-                console.log('GET !!!! отобрази появление нового пользователя')
-            } else if(body.messageType === "LEAVE"){
-                console.log('GET !!!! отобрази уход пользователя')
-            } else {
-                console.log('GET !!!! отобрази новое сообщение')
+            if (newMessageHandler) {
+                newMessageHandler(body)
             }
-
             console.log(newMsg)
         })
     }
 
-    static sendMsg(roomID, textMessage){
+    static sendMsg(roomID, textMessage) {
         this.stompClient.send(`/app/chat/${roomID}/sendMessage`, JSON.stringify({
             messageType: "MESSAGE",
             firstName: this.userInfo.firstName,
@@ -260,7 +256,7 @@ export default class Api {
         }))
     }
 
-    static leaveChat(roomID){
+    static leaveChat(roomID) {
         this.loadUserInfo();
         this.loadLoginInfo();
 
