@@ -46,7 +46,7 @@ public class BulletinService implements IBulletinService {
     public void create(BulletinDto dto) {
         Bulletin bulletin = bulletinMapper.bulletinDtoToBulletin(dto);
         bulletin.setPublicationDate(new Date(System.currentTimeMillis()));
-        bulletin.setOwner(userRepository.findUserByLogin(bulletin.getOwner().getLogin()));
+        bulletin.setOwner(userRepository.findUserByLogin(bulletin.getOwner().getLogin()).orElseThrow());
         bulletinRepository.save(bulletin);
         log.info("Created: " + bulletin);
     }

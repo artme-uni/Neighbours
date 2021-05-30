@@ -10,6 +10,8 @@ import ru.neighbors.neighbors.entities.Room;
         imports = {Room.class, RoomDto.class, NewRoomDto.class, SimpleRoomDto.class})
 public interface RoomMapper {
     SimpleRoomDto roomToSimpleRoomDto(Room room);
+
     Room newRoomDtoToRoom(NewRoomDto newRoomDto);
+
     RoomDto roomToRoomDto(Room room);
 }

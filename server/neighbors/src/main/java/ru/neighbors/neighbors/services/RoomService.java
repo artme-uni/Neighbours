@@ -1,5 +1,7 @@
 package ru.neighbors.neighbors.services;
 
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import ru.neighbors.neighbors.dto.*;
@@ -9,53 +11,70 @@ import ru.neighbors.neighbors.entities.Room;
 import ru.neighbors.neighbors.entities.User;
 import ru.neighbors.neighbors.mappers.MessageMapper;
 import ru.neighbors.neighbors.mappers.RoomMapper;
+import ru.neighbors.neighbors.mappers.UserMapper;
 import ru.neighbors.neighbors.repositories.RoomRepository;
 import ru.neighbors.neighbors.repositories.UserRepository;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
 @Service
+@Slf4j
 public class RoomService {
     private final RoomRepository roomRepository;
     private final RoomMapper roomMapper;
+    private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final MessageMapper messageMapper;
     private final SimpMessageSendingOperations messagingTemplate;
 
     public RoomService(RoomRepository roomRepository,
                        RoomMapper roomMapper,
-                       UserRepository userRepository,
+                       UserMapper userMapper, UserRepository userRepository,
                        MessageMapper messageMapper,
                        SimpMessageSendingOperations messagingTemplate) {
         this.roomRepository = roomRepository;
         this.roomMapper = roomMapper;
+        this.userMapper = userMapper;
         this.userRepository = userRepository;
         this.messageMapper = messageMapper;
         this.messagingTemplate = messagingTemplate;
     }
 
-    public List<SimpleRoomDto> getRoomList(UserLoginDto userLoginDto) {
-        User user = userRepository.findUserByLogin(userLoginDto.getLogin());
+    public List<UserRoomDto> getUsersByAddress(AddressDto addressDto) {
+        String city = addressDto.getCity();
+        String street = addressDto.getStreet();
+        Integer houseNumber = addressDto.getHouseNumber();
+        return userRepository.findUsersByCityContainingAndStreetContainingAndHouseNumber(city, street, houseNumber)
+                .stream()
+                .map(userMapper::userToUserRoomDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<SimpleRoomDto> getRoomList(@NonNull String login) {
+        User user = userRepository.findUserByLogin(login).orElseThrow();
         return roomRepository.findByUsersContaining(user)
                 .stream()
                 .map(roomMapper::roomToSimpleRoomDto)
                 .collect(Collectors.toList());
     }
 
-    public SimpleRoomDto createRoom(NewRoomDto newRoomDto) {
+    public SimpleRoomDto createRoom(@NonNull NewRoomDto newRoomDto) {
         Room room = roomMapper.newRoomDtoToRoom(newRoomDto);
+        Objects.requireNonNull(room);
         roomRepository.save(room);
+        log.info("New room jas just created:{}", room);
         return roomMapper.roomToSimpleRoomDto(room);
     }
 
-    public RoomDto joinRoom(UserRoomKeyDto userRoomKey) {
-        User user = userRepository.findUserByLogin(userRoomKey.getLogin());
-        Room room = roomRepository.findRoomById(userRoomKey.getRoomId());
-        var roomDto = roomMapper.roomToRoomDto(room);
+    public RoomDto joinRoom(@NonNull UserRoomKeyDto userRoomKey) {
+        User user = userRepository.findUserByLogin(userRoomKey.getLogin()).orElseThrow();
+        Room room = roomRepository.findRoomById(userRoomKey.getRoomId()).orElseThrow();
+        RoomDto roomDto = roomMapper.roomToRoomDto(room);
 
         if (!room.getUsers().contains(user)) {
             room.addUser(user);
@@ -74,9 +93,9 @@ public class RoomService {
         return roomDto;
     }
 
-    public RoomDto removeUserFromRoom(UserRoomKeyDto userRoomKey) {
-        User user = userRepository.findUserByLogin(userRoomKey.getLogin());
-        Room room = roomRepository.findRoomById(userRoomKey.getRoomId());
+    public RoomDto removeUserFromRoom(@NonNull UserRoomKeyDto userRoomKey) {
+        User user = userRepository.findUserByLogin(userRoomKey.getLogin()).orElseThrow();
+        Room room = roomRepository.findRoomById(userRoomKey.getRoomId()).orElseThrow();
 
         Message leaveMessage = createMessage(userRoomKey, MessageType.LEAVE);
         MessageDto leaveMessageDto = messageMapper.messageToMessageDto(leaveMessage);

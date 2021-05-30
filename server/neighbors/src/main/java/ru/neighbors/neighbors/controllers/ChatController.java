@@ -4,12 +4,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.neighbors.neighbors.dto.*;
 import ru.neighbors.neighbors.services.RoomService;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -21,14 +23,21 @@ public class ChatController {
         this.roomService = roomService;
     }
 
-    @SubscribeMapping("/chat/roomList")
-    public List<SimpleRoomDto> getRoomList(@RequestBody UserLoginDto userLoginDto) {
-        return roomService.getRoomList(userLoginDto);
+    @GetMapping("/chat/roomList")
+    public List<SimpleRoomDto> getRoomList(Principal principal) {
+        return roomService.getRoomList(principal.getName());
+    }
+
+    @PostMapping("/users")
+    public List<UserRoomDto> getUserList(AddressDto addressDto) {
+        return roomService.getUsersByAddress(addressDto);
     }
 
     @MessageMapping("/chat/addRoom")
     @SendTo("/chat/newRoom")
     public SimpleRoomDto createRoom(@RequestBody NewRoomDto newRoomDto) {
+
+        log.info("");
         return roomService.createRoom(newRoomDto);
     }
 

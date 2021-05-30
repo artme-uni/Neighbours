@@ -5,8 +5,10 @@ import ru.neighbors.neighbors.entities.Room;
 import ru.neighbors.neighbors.entities.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
-    Room findRoomById(Long id);
+    Optional<Room> findRoomById(Long id);
+
     List<Room> findByUsersContaining(User user);
 }

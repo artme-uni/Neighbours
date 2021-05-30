@@ -1,5 +1,6 @@
 package ru.neighbors.neighbors.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.util.Collection;
 @RestController
 @CrossOrigin
 @RequestMapping("/bulletins")
+@Slf4j
 public class BulletinController {
     private final IBulletinService bulletinService;
 
@@ -27,6 +29,7 @@ public class BulletinController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Object> create(@Valid @RequestBody BulletinDto bulletinDto) {
+        log.info("Want to create new bulletin:{}", bulletinDto);
         bulletinService.create(bulletinDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

@@ -1,5 +1,6 @@
 package ru.neighbors.neighbors.services;
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,8 +11,8 @@ import ru.neighbors.neighbors.dto.RegistrationUserDto;
 import ru.neighbors.neighbors.entities.User;
 import ru.neighbors.neighbors.mappers.UserMapper;
 import ru.neighbors.neighbors.repositories.UserRepository;
+import ru.neighbors.neighbors.services.exceptions.UserLoginExistsException;
 
-import javax.security.auth.login.LoginException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
@@ -20,29 +21,34 @@ import java.util.Base64;
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
+    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
-    public void createUser(RegistrationUserDto registrationUserDto) throws LoginException {
+    public void createUser(@NonNull RegistrationUserDto registrationUserDto) throws UserLoginExistsException {
         User user = userMapper.registrationUserDtoToUser(registrationUserDto);
         if (userRepository.existsUserByLogin(user.getLogin())) {
-            throw new LoginException();
+            throw new UserLoginExistsException("User with such login - " +
+                    registrationUserDto.getLogin() + " - has already exited");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+        log.info("User has just successfully registered:{}", registrationUserDto);
     }
 
-    public LoginResponseUserDto loginUser(LoginRequestUserDto loginRequestUserDto) {
-        User user = userRepository.findUserByLogin(loginRequestUserDto.getLogin());
+    public LoginResponseUserDto loginUser(@NonNull LoginRequestUserDto loginRequestUserDto) {
+        User user = userRepository.findUserByLogin(loginRequestUserDto.getLogin()).orElseThrow();
+        log.info("User from repository was downloaded:{}", user);
         LoginResponseUserDto loginResponseUserDto = userMapper.userToLoginResponseUserDto(user);
         var encodingInfo = loginRequestUserDto.getLogin() + ":" + loginRequestUserDto.getPassword();
-        var token = Base64.getEncoder().encode(encodingInfo.getBytes(StandardCharsets.UTF_8));
-        loginResponseUserDto.setToken(new String(token));
+        var token = Base64.getEncoder().encodeToString(encodingInfo.getBytes(StandardCharsets.UTF_8));
+        loginResponseUserDto.setToken(token);
+        log.info("Token for user:{}", token);
         return loginResponseUserDto;
     }
 }
