@@ -1,16 +1,16 @@
 package ru.neighbors.neighbors.controllers;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import ru.neighbors.neighbors.dto.*;
 import ru.neighbors.neighbors.services.RoomService;
+import ru.neighbors.neighbors.services.exceptions.ChatMemberException;
 
 import java.security.Principal;
 import java.util.List;
@@ -33,6 +33,18 @@ public class ChatController {
     @PostMapping("/users")
     public List<UserRoomDto> getUserList(AddressDto addressDto) {
         return roomService.getUsersByAddress(addressDto);
+    }
+
+    @PostMapping("/newChatMember")
+    public @ResponseBody
+    ResponseEntity<Object> registerNewChatMember(@RequestBody RegisterChatMemberDto chatMemberDto) {
+        log.info("Request to register new member:{}", chatMemberDto);
+        try {
+            return ResponseEntity.ok(roomService.registerNewChatMember(chatMemberDto));
+        } catch (ChatMemberException e) {
+            log.error(e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 
     @MessageMapping("/chat/addRoom")

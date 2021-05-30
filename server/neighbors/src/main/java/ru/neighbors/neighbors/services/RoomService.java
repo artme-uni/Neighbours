@@ -14,6 +14,7 @@ import ru.neighbors.neighbors.mappers.RoomMapper;
 import ru.neighbors.neighbors.mappers.UserMapper;
 import ru.neighbors.neighbors.repositories.RoomRepository;
 import ru.neighbors.neighbors.repositories.UserRepository;
+import ru.neighbors.neighbors.services.exceptions.ChatMemberException;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -135,5 +136,22 @@ public class RoomService {
 
     private void sendRoomDtoToUserList(Long roomId, RoomDto roomDto) {
         messagingTemplate.convertAndSend(format("/chat/%s/userList", roomId), roomDto);
+    }
+
+    public ChatMembersDto registerNewChatMember(RegisterChatMemberDto chatMemberDto) throws ChatMemberException {
+        Room room = roomRepository.findRoomById(chatMemberDto.getRoomId()).orElseThrow();
+        User user = userRepository.findUserByLogin(chatMemberDto.getLogin()).orElseThrow();
+
+        if (room.getUsers().contains(user)) {
+            throw new ChatMemberException("User(" + user + ") has already exist in this room:" + room);
+        }
+
+        room.addUser(user);
+        roomRepository.save(room);
+        List<UserRoomDto> userRoomDtos = room.getUsers()
+                .stream()
+                .map(userMapper::userToUserRoomDto)
+                .collect(Collectors.toList());
+        return new ChatMembersDto(userRoomDtos);
     }
 }
