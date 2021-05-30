@@ -6,6 +6,7 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import ru.neighbors.neighbors.dto.*;
 import ru.neighbors.neighbors.entities.Message;
+import ru.neighbors.neighbors.entities.MessageType;
 import ru.neighbors.neighbors.entities.Room;
 import ru.neighbors.neighbors.entities.User;
 import ru.neighbors.neighbors.mappers.MessageMapper;
@@ -79,7 +80,7 @@ public class RoomService {
         if (!room.getUsers().contains(user)) {
             room.addUser(user);
 
-            Message joinMessage = createMessage(userRoomKey);
+            Message joinMessage = createMessage(userRoomKey, MessageType.JOIN);
             MessageDto joinMessageDto = messageMapper.messageToMessageDto(joinMessage);
             sendMessageDtoToMessages(room.getId(), joinMessageDto);
 
@@ -97,7 +98,7 @@ public class RoomService {
         User user = userRepository.findUserByLogin(userRoomKey.getLogin()).orElseThrow();
         Room room = roomRepository.findRoomById(userRoomKey.getRoomId()).orElseThrow();
 
-        Message leaveMessage = createMessage(userRoomKey);
+        Message leaveMessage = createMessage(userRoomKey, MessageType.LEAVE);
         MessageDto leaveMessageDto = messageMapper.messageToMessageDto(leaveMessage);
         sendMessageDtoToMessages(room.getId(), leaveMessageDto);
 
@@ -111,8 +112,9 @@ public class RoomService {
         return roomDto;
     }
 
-    private Message createMessage(UserRoomKeyDto userRoomKey) {
+    private Message createMessage(UserRoomKeyDto userRoomKey, MessageType type) {
         var message = new Message();
+        message.setMessageType(type);
         message.setFirstName(userRoomKey.getFirstName());
         message.setLastName(userRoomKey.getLastName());
         return message;
@@ -120,9 +122,11 @@ public class RoomService {
 
     public void sendMessageDtoToMessages(Long roomId, MessageDto messageDto) {
         messageDto.setDateTime(OffsetDateTime.now());
-        roomRepository.findRoomById(roomId)
-                .orElseThrow()
-                .addMessage(messageMapper.messageDtoToMessage(messageDto));
+        Room room = roomRepository.findRoomById(roomId)
+                .orElseThrow();
+        room.addMessage(messageMapper.messageDtoToMessage(messageDto));
+        roomRepository.save(room);
+        log.info("New message has just added:{}", messageDto);
         messagingTemplate.convertAndSend(format("/chat/%s/messages", roomId), messageDto);
     }
 

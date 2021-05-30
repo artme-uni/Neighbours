@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.security.MessageDigest;
 import java.time.OffsetDateTime;
 
 @Data
@@ -15,7 +16,8 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "messages_seq_gen")
     @SequenceGenerator(name = "messages_seq_gen", sequenceName = "messages_id_seq", allocationSize = 1)
     private Long id;
-
+    @Enumerated(EnumType.STRING)
+    private MessageType messageType;
     private String firstName;
     private String lastName;
     private String text;
