@@ -1,5 +1,7 @@
 package ru.neighbors.neighbors.services;
 
+import ru.neighbors.neighbors.dto.AddressDto;
+
 import java.util.List;
 
 public interface ICrudService<T> {
@@ -12,6 +14,6 @@ public interface ICrudService<T> {
 
     void deleteById(Long id);
 
-    List<T> findAll();
+    List<T> findAll(AddressDto addressDto);
 
 }

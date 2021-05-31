@@ -2,8 +2,10 @@ package ru.neighbors.neighbors.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.neighbors.neighbors.dto.AddressDto;
 import ru.neighbors.neighbors.dto.BulletinDto;
 import ru.neighbors.neighbors.entities.Bulletin;
+import ru.neighbors.neighbors.entities.User;
 import ru.neighbors.neighbors.mappers.BulletinMapper;
 import ru.neighbors.neighbors.repositories.BulletinRepository;
 import ru.neighbors.neighbors.repositories.UserRepository;
@@ -28,9 +30,10 @@ public class BulletinService implements IBulletinService {
     }
 
     @Override
-    public List<BulletinDto> findAll() {
+    public List<BulletinDto> findAll(AddressDto addressDto) {
         return bulletinRepository.findAll()
                 .stream()
+                .filter(bulletin -> bulletinLocatesOnAddress(bulletin, addressDto))
                 .map(bulletinMapper::bulletinToBulletinDto)
                 .collect(Collectors.toList());
     }
@@ -64,5 +67,12 @@ public class BulletinService implements IBulletinService {
     public void deleteById(Long id) {
         log.info("Want to delete bulletin with id={}", id);
         bulletinRepository.deleteById(id);
+    }
+
+    private boolean bulletinLocatesOnAddress(Bulletin bulletin, AddressDto addressDto) {
+        User bulletinOwner = bulletin.getOwner();
+        return bulletinOwner.getCity().equals(addressDto.getCity())
+                && bulletinOwner.getStreet().equals(addressDto.getStreet())
+                && bulletinOwner.getHouseNumber().equals(addressDto.getHouseNumber());
     }
 }

@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.neighbors.neighbors.dto.AddressDto;
 import ru.neighbors.neighbors.dto.BulletinDto;
 import ru.neighbors.neighbors.services.IBulletinService;
 
@@ -22,8 +23,8 @@ public class BulletinController {
     }
 
     @GetMapping
-    public Collection<BulletinDto> findAll() {
-        return bulletinService.findAll();
+    public Collection<BulletinDto> findAll(@RequestBody AddressDto addressDto) {
+        return bulletinService.findAll(addressDto);
     }
 
     @PostMapping
