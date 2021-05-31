@@ -4,7 +4,6 @@ import org.mapstruct.Mapper;
 import ru.neighbors.neighbors.dto.*;
 import ru.neighbors.neighbors.entities.User;
 
-@Mapper(componentModel = "spring")
 public interface UserMapper {
     User registrationUserDtoToUser(RegistrationUserDto registrationUserDto);
 

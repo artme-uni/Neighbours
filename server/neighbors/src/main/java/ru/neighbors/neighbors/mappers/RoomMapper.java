@@ -6,7 +6,6 @@ import ru.neighbors.neighbors.dto.RoomDto;
 import ru.neighbors.neighbors.dto.SimpleRoomDto;
 import ru.neighbors.neighbors.entities.Room;
 
-@Mapper(componentModel = "spring")
 public interface RoomMapper {
     SimpleRoomDto roomToSimpleRoomDto(Room room);
 
