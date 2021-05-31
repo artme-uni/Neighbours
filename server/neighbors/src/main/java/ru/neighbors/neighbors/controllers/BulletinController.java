@@ -22,7 +22,7 @@ public class BulletinController {
         this.bulletinService = bulletinService;
     }
 
-    @PostMapping
+    @PutMapping()
     public Collection<BulletinDto> findAll(@RequestBody AddressDto addressDto) {
         return bulletinService.findAll(addressDto);
     }
