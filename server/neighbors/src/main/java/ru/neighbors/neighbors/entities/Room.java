@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -27,14 +28,23 @@ public class Room {
     private Set<Message> messages;
 
     public void addUser(User user) {
+        if (users == null) {
+            users = new HashSet<>();
+        }
         this.users.add(user);
     }
 
     public void removeUser(User user) {
+        if (users == null) {
+            users = new HashSet<>();
+        }
         this.users.remove(user);
     }
 
     public void addMessage(Message message) {
+        if (messages == null) {
+            messages = new HashSet<>();
+        }
         this.messages.add(message);
     }
 
