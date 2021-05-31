@@ -27,9 +27,8 @@ export default class ChatCreationForm extends React.Component {
 
     async onSubmit(event) {
         event.preventDefault();
-
         if (this.state.title) {
-            await Api.createNewChatRoom(this.state.title, (id) => window.location.href = "/chat-info/" + id)
+            await Api.createNewChatRoom(this.state.title, (id) => window.location.href = "/chat/" + id)
         } else {
             this.setState({hintMsg: 'Заполните все поля'});
         }

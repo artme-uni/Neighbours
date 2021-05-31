@@ -9,27 +9,36 @@ export default class ChatInfoScreen extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            title: '',
+            users: [],
+            isLoaded: false
+        };
+
         this.getChatID = this.getChatID.bind(this);
         this.onBackButton = this.onBackButton.bind(this);
+
     }
 
-    getChatID(){
+    getChatID() {
         return parseInt(this.props.match.params.id)
     }
 
-    onBackButton(){
+    onBackButton() {
         window.location.href = "/chat/" + this.getChatID()
     }
 
-    render() {
-        const members = [
-            {id:"1", name: "Максим Пронин"},
-            {id:"2", name: "Артур Шарифов"},
-            {id:"3", name: "Test"},
-            {id:"4", name: "Артем Кононов"},
-            {id:"5", name: "Валентин Павлович"},
-        ]
+    async componentDidMount() {
+        if (Api.isLogged()) {
+            await Api.loadChatInfo()
 
+            this.setState({user: Api.chatInfo.users})
+            this.setState({title: Api.chatInfo.roomName})
+            this.setState({isLoaded: true})
+        }
+    }
+
+    render() {
         return (
             <div>
                 <MainHeader/>
@@ -37,7 +46,8 @@ export default class ChatInfoScreen extends React.Component {
                 <AuthorizationChecker/>
 
                 {Api.isLogged() ?
-                    <ChatInfo title={"ул. Пирогова, 2"} members={members} onBackButton={this.onBackButton}/>
+                    <ChatInfo title={this.state.title} members={this.state.user} isLoaded={this.state.isLoaded}
+                              onBackButton={this.onBackButton} id={parseInt(this.props.match.params.id)}/>
                     : null}
             </div>);
     }

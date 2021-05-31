@@ -14,6 +14,8 @@ export default class Api {
     static loginInfo = null
     static userInfoKey = 'ApiUserInfo'
     static userInfo = null
+    static chatInfoKey = 'ChatInfo'
+    static chatInfo = null
 
     static register(registrationInfo, responseHandler, errorHandler) {
         axios({
@@ -31,7 +33,6 @@ export default class Api {
     }
 
     static loadLoginInfo() {
-        console.log('load login')
         this.loginInfo = JSON.parse(localStorage.getItem(this.loginInfoKey))
     }
 
@@ -39,8 +40,15 @@ export default class Api {
         localStorage.setItem(this.userInfoKey, JSON.stringify(info));
     }
 
+    static async loadChatInfo() {
+        this.chatInfo = JSON.parse(await localStorage.getItem(this.chatInfoKey))
+    }
+
+    static setChatInfo(info) {
+        localStorage.setItem(this.chatInfoKey, JSON.stringify(info));
+    }
+
     static loadUserInfo() {
-        console.log('load user')
         this.userInfo = JSON.parse(localStorage.getItem(this.userInfoKey))
     }
 
@@ -60,8 +68,6 @@ export default class Api {
 
     static async login(loginInfo, responseHandler, errorHandler) {
         await this.setLoginInfo(loginInfo)
-        console.log(loginInfo)
-        console.log(this.getToken())
 
         axios({
             method: 'post',
@@ -89,14 +95,24 @@ export default class Api {
         return (`${this.loginInfo.login}:${this.loginInfo.password}`);
     }
 
+    static getAddress(){
+        return{
+            city: this.userInfo.city,
+            street: this.userInfo.street,
+            houseNumber: this.userInfo.houseNumber
+        }
+    }
+
     static getAllBulletins(responseHandler, errorHandler) {
         this.loadLoginInfo()
+        this.loadUserInfo()
         axios({
-            method: 'get',
+            method: 'put',
             url: this.url + '/bulletins',
             headers: {
                 'Authorization': `Basic ${this.getToken()}`
             },
+            data: this.getAddress()
         }).then(responseHandler).catch(errorHandler)
     }
 
@@ -112,6 +128,8 @@ export default class Api {
 
     static create_bulletin(bulletinInfo, responseHandler, errorHandler) {
         this.loadLoginInfo()
+        this.loadUserInfo()
+
         axios({
             method: 'post',
             url: this.url + '/bulletins',
@@ -120,12 +138,15 @@ export default class Api {
             },
             data: {
                 owner: {
-                    login: this.loginInfo.login
+                    firstName: this.userInfo.firstName,
+                    lastName: this.userInfo.lastName,
+                    login: this.loginInfo.login,
                 },
                 title: bulletinInfo.title,
                 text: bulletinInfo.text
             }
         }).then(responseHandler).catch(errorHandler)
+
     }
 
     static update_bulletin(id, title, text, responseHandler, errorHandler) {
@@ -163,7 +184,6 @@ export default class Api {
 
     static async createSockConnection(onConnect) {
         this.loadLoginInfo();
-        console.log(this.loginInfo)
 
         let str = `http://${this.getLoginData()}@${this.socketUrl}/ws`
         let sock = new SockJS(str)
@@ -195,13 +215,13 @@ export default class Api {
 
     static async createNewChatRoom(roomName, handler) {
         this.loadUserInfo();
-        let body = null
 
         let subscription = await this.stompClient.subscribe('/chat/newRoom', (msg) => {
-            body = JSON.parse(msg.body)
-            Api.openRoom(body.id)
+            let mainBody = JSON.parse(msg.body).body
+
+            Api.openRoom(mainBody.id)
             subscription.unsubscribe()
-            handler(body.id)
+            handler(mainBody.id)
         })
 
         this.stompClient.send("/app/chat/addRoom", JSON.stringify({
@@ -214,12 +234,6 @@ export default class Api {
     }
 
     static async openRoom(roomNumber, getRoomInfo, newMessageHandler) {
-        if (this.isInRoom) {
-            return
-        } else {
-            this.isInRoom = true
-        }
-
         this.loadUserInfo();
         this.loadLoginInfo();
 
@@ -227,6 +241,7 @@ export default class Api {
             let body = JSON.parse(msg.body)
             getRoomInfo(body)
             subscription.unsubscribe()
+            Api.setChatInfo(body)
         })
 
 
@@ -243,7 +258,6 @@ export default class Api {
             if (newMessageHandler) {
                 newMessageHandler(body)
             }
-            console.log(newMsg)
         })
     }
 
@@ -267,9 +281,37 @@ export default class Api {
             lastName: this.userInfo.lastName,
         }
 
-        console.log(dto)
-
         this.stompClient.send(`/app/chat/${roomID}/leave`, JSON.stringify(dto))
         this.isInRoom = false
+    }
+
+    static addUser(chatRoom, login){
+        this.loadLoginInfo()
+        axios({
+            method: 'post',
+            url: this.url + '/addChatMember',
+            headers: {
+                'Authorization': `Basic ${this.getToken()}`
+            },
+            data: {
+                roomId: chatRoom,
+                login: login
+            }
+        })
+    }
+
+    static removeUser(chatRoom, login){
+        this.loadLoginInfo()
+        axios({
+            method: 'post',
+            url: this.url + '/removeChatMember',
+            headers: {
+                'Authorization': `Basic ${this.getToken()}`
+            },
+            data: {
+                roomId: chatRoom,
+                login: login
+            }
+        })
     }
 }

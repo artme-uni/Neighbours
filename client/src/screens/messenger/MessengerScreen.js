@@ -18,13 +18,11 @@ export default class MessengerScreen extends React.Component {
     }
 
     setRoomArray(roomsInfo) {
-        console.log(roomsInfo)
         this.setState({rooms: roomsInfo});
     }
 
     async componentDidMount() {
         if (Api.isLogged()) {
-            await Api.createSockConnection()
 
             await new Promise((resolve, reject) => {
                 Api.getRooms(((response) => {

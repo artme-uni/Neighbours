@@ -33,7 +33,7 @@ export default class Chat extends React.Component {
     async onSubmit(event) {
         event.preventDefault();
 
-        if(!this.state.value || this.state.value === ''){
+        if (!this.state.value || this.state.value === '') {
             return
         }
         Api.sendMsg(this.props.chatID, this.state.value)
@@ -68,18 +68,29 @@ export default class Chat extends React.Component {
                             .slice(0, this.state.messagesCount)
                             .reverse()
                             .map(message =>
-                                <div
-                                    className={'chat-message-container'}
-                                    key={message.lastName + message.dateTime}>
+                                <div>
+                                    {message.messageType === "MESSAGE" ?
+                                        <div
+                                            className={'chat-message-container'}
+                                            key={message.lastName + message.dateTime}>
 
-                                    <div
-                                        className={this.isOutgoingMessage(message) ? 'chat-outgoing-message' : 'chat-incoming-message'}>
-                                        <Message message={message} isOutgoingMessage={this.isOutgoingMessage(message)}/>
-                                    </div>
+                                            <div
+                                                className={this.isOutgoingMessage(message) ? 'chat-outgoing-message' : 'chat-incoming-message'}>
+                                                <Message message={message}
+                                                         isOutgoingMessage={this.isOutgoingMessage(message)}/>
+
+                                            </div>
+                                        </div> : null}
                                 </div>
                             )}
 
+
                     <form className={'chat-field-part'} onSubmit={this.onSubmit}>
+                        {this.props.messages.length === 0 ?
+                            <div>
+                                История сообщений пуста
+                            </div> : null}
+
                         <div className={'chat-field-stub-transition'}>
                         </div>
 

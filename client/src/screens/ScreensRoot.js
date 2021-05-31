@@ -12,6 +12,7 @@ import PostEditingScreen from "./postEditing/PostEditingScreen";
 import ChatScreen from "./chat/ChatScreen";
 import ChatInfoScreen from "./chatInfo/ChatInfoScreen";
 import ChatCreation from "./chatCreation/ChatCreation";
+import UserAdding from "./userAdding/UserAdding";
 
 export default class ScreensRoot extends Component {
 
@@ -24,6 +25,7 @@ export default class ScreensRoot extends Component {
                 <Route path='/chat/:id' component={ChatScreen}/>
                 <Route path='/chat-info/:id' component={ChatInfoScreen}/>
                 <Route path='/create-chat' component={ChatCreation}/>
+                <Route path='/add-user/:id' component={UserAdding}/>
                 <Route path='/profile' component={ProfileScreen}/>
                 <Route path='/login' component={LoginScreen}/>
                 <Route path='/registration' component={RegistrationScreen}/>

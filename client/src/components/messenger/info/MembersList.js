@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from "prop-types";
 import './ChatInfo.css'
 import CharsAvatar from "../avatar/CharsAvatar";
+import Api from "../../../utils/Api";
 
 export default class MembersList extends React.Component {
 
@@ -13,30 +14,40 @@ export default class MembersList extends React.Component {
             canStepForward: false,
             canStepBack: false
         }
+
         this.stepForward = this.stepForward.bind(this);
         this.stepBack = this.stepBack.bind(this);
+        this.removeUser = this.removeUser.bind(this);
     }
 
-    async stepForward() {
-        await this.setState({
-            startPosition: this.state.startPosition + this.state.step
-        })
 
-        this.canStepForwardUpdate()
-        this.canStepBackUpdate()
+    async stepForward() {
+        await this.canStepForwardUpdate()
+        if (this.state.canStepForward) {
+            await this.setState({
+                startPosition: this.state.startPosition + this.state.step
+            })
+
+            await this.canStepForwardUpdate()
+            this.canStepBackUpdate()
+        }
     }
 
     async stepBack() {
-        await this.setState({
-            startPosition: this.state.startPosition - this.state.step
-        })
-
-        this.canStepForwardUpdate()
         this.canStepBackUpdate()
+        if (this.state.canStepBack) {
+
+            await this.setState({
+                startPosition: this.state.startPosition - this.state.step
+            })
+
+            await this.canStepForwardUpdate()
+            this.canStepBackUpdate()
+        }
     }
 
-    canStepForwardUpdate() {
-        this.setState({
+    async canStepForwardUpdate() {
+        await this.setState({
             canStepForward: (this.state.startPosition + this.state.step) < this.props.members.length
         })
     }
@@ -47,9 +58,13 @@ export default class MembersList extends React.Component {
         })
     }
 
-    componentDidMount() {
-        this.canStepForwardUpdate()
-        this.canStepBackUpdate()
+    getName(member) {
+        return member.firstName + " " + member.lastName
+    }
+
+    removeUser(userLogin){
+        Api.removeUser(this.props.id, userLogin)
+        window.location.href = "/chat/" + this.props.id
     }
 
     render() {
@@ -59,13 +74,11 @@ export default class MembersList extends React.Component {
                     <h4 className={'chat-info-field-name'}>Список пользователей</h4>
                     <div>
                         <button
-                            disabled={!this.state.canStepBack}
                             onClick={this.stepBack}
                             className={'chat-button chat-info-button'}>
                             Назад
                         </button>
                         <button
-                            disabled={!this.state.canStepForward}
                             onClick={this.stepForward}
                             className={'chat-button chat-info-button'}>
                             Вперед
@@ -77,23 +90,27 @@ export default class MembersList extends React.Component {
                     {this.props.members
                         .slice(this.state.startPosition, this.state.startPosition + this.state.step)
                         .map(member =>
-                            <div key={member.id} className={'chat-info-member'}>
+                            <div key={member.login} className={'chat-info-member'}>
                                 <div className={'chat-info-member-name'}>
                                     <div className={'chat-info-avatar'}>
-                                        <CharsAvatar title={member.name} isSmall={true}/>
+                                        <CharsAvatar title={this.getName(member)} isSmall={true}/>
                                     </div>
-                                    <text>{member.name}</text>
+                                    {this.getName(member)}
                                 </div>
-                                <button className={'chat-info-member-button'}>Удалить</button>
+                                <button onClick={() => this.removeUser(member.login)} className={'chat-info-member-button'}>Удалить</button>
                             </div>
                         )}
                 </div>
             </div>
         );
     }
-
 }
 
 MembersList.propTypes = {
-    members: PropTypes.array
+    members: PropTypes.array,
+    isLoaded: PropTypes.bool
 };
+
+MembersList.defaultProps = {
+    members: []
+}

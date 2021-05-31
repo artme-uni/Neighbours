@@ -30,7 +30,7 @@ export default class Message extends React.Component {
         return this.props.isOutgoingMessage ?
             <div className={'message-container'}>
                 <div className={'message-outgoing'}>
-                    <text>{this.props.message.text}</text>
+                    {this.props.message.text}
                 </div>
             </div>
             :
@@ -42,7 +42,7 @@ export default class Message extends React.Component {
                         <text className={'chat-message-date'}>{this.getTime(this.props.message.dateTime)}</text>
                     </div>
 
-                    <text>{this.props.message.text}</text>
+                    {this.props.message.text}
                 </div>
             </div>
     }
@@ -63,12 +63,6 @@ export default class Message extends React.Component {
                 {this.props.message.messageType === "MESSAGE" ?
                     <div>
                         {this.renderSimpleMessage()}
-                    </div>
-                    : null}
-
-                {this.props.message.messageType === "JOIN" ?
-                    <div>
-                        {this.renderJoinMessage()}
                     </div>
                     : null}
 

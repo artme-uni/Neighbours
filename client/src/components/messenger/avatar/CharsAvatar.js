@@ -34,7 +34,7 @@ export default class CharsAvatar extends React.Component {
         return this.state.colors[elementIndex]
     }
 
-    getGradient(){
+    getGradient() {
         return 'linear-gradient(320deg, ' +
             'rgba(' + this.getRGBColor(this.props.title) + ', 1), rgba(' + this.getRGBColor(this.props.title) + ', 0.7))'
     }
@@ -54,16 +54,19 @@ export default class CharsAvatar extends React.Component {
 
     render() {
         return (
-            <div className={'dialog-preview-elements'}>
-                <h3
-                    className={this.props.isSmall ? 'avatars-small' : 'avatars-big'}
-                    style={{
-                        background: this.getGradient(this.props.title)
-                    }}
-                >
+            <div>
+                {this.props.title ?
+                    <div className={'dialog-preview-elements'}>
+                        <h3
+                            className={this.props.isSmall ? 'avatars-small' : 'avatars-big'}
+                            style={{
+                                background: this.getGradient(this.props.title)
+                            }}>
 
-                    {this.getShortTitle(this.props.title)}
-                </h3>
+                            {this.getShortTitle(this.props.title)}
+                        </h3>
+                    </div> : null
+                }
             </div>
         );
     }
