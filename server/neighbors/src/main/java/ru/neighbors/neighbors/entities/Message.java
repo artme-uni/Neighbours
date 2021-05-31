@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -24,4 +25,22 @@ public class Message {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "room_id")
     private Room room;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Message)) return false;
+        Message message = (Message) o;
+        return id.equals(message.id)
+                && messageType == message.messageType
+                && Objects.equals(firstName, message.firstName)
+                && Objects.equals(lastName, message.lastName)
+                && Objects.equals(text, message.text)
+                && Objects.equals(dateTime, message.dateTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

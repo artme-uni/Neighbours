@@ -27,12 +27,12 @@ public class ChatController {
     }
 
     @GetMapping("/chat/roomList")
-    public List<SimpleRoomDto> getRoomList(Principal principal) {
+    public @ResponseBody List<SimpleRoomDto> getRoomList(Principal principal) {
         return roomService.getRoomList(principal.getName());
     }
 
     @PostMapping("/users")
-    public List<UserRoomDto> getUserList(AddressDto addressDto) {
+    public @ResponseBody List<UserRoomDto> getUserList(AddressDto addressDto) {
         return roomService.getUsersByAddress(addressDto);
     }
 

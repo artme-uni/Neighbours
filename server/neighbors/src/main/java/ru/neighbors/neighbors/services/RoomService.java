@@ -18,9 +18,7 @@ import ru.neighbors.neighbors.services.exceptions.ChatMemberException;
 import ru.neighbors.neighbors.services.exceptions.IllegalChatNameException;
 
 import java.time.OffsetDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
@@ -116,6 +114,10 @@ public class RoomService {
             roomDto = roomMapper.roomToRoomDto(room);
             sendRoomDtoToUserList(room.getId(), roomDto);
         }
+
+        var messages = roomDto.getMessages().stream()
+                .collect(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(MessageDto::getDateTime))));
+        roomDto.setMessages(messages);
 
         return roomDto;
     }

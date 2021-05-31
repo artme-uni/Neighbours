@@ -40,6 +40,7 @@ public class UserService {
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+        System.out.println(user);
         roomService.addUserToHomeRoom(user);
         log.info("User has just successfully registered:{}", registrationUserDto);
     }
