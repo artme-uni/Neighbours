@@ -42,6 +42,7 @@ public class UserService {
         userRepository.save(user);
         System.out.println(user);
         roomService.addUserToHomeRoom(user);
+        roomService.addUserToStreetRoom(user);
         log.info("User has just successfully registered:{}", registrationUserDto);
     }
 

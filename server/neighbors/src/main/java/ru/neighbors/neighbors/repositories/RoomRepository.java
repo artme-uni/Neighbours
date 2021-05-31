@@ -16,4 +16,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
                                                                String city,
                                                                String street,
                                                                Integer houseNumber);
+
+    Optional<Room> findFirstByRoomNameAndCityAndStreet(String roomName, String city, String street);
 }

@@ -27,6 +27,7 @@ import static java.lang.String.format;
 @Slf4j
 public class RoomService {
     private static final String HOME_ROOM_NAME = "Мой дом";
+    private static final String STREET_ROOM_NAME = "Моя улица";
     private final RoomRepository roomRepository;
     private final RoomMapper roomMapper;
     private final UserMapper userMapper;
@@ -66,8 +67,9 @@ public class RoomService {
     }
 
     public SimpleRoomDto createCustomRoom(NewRoomDto newRoomDto) throws IllegalChatNameException {
-        if (newRoomDto.getRoomName().equals(HOME_ROOM_NAME)) {
-            throw new IllegalChatNameException("Chat name shouldn't be the same as home chat name");
+        if (newRoomDto.getRoomName().equals(HOME_ROOM_NAME)
+                || newRoomDto.getRoomName().equals(STREET_ROOM_NAME)) {
+            throw new IllegalChatNameException("Chat name shouldn't be the same as home or street chat name");
         }
         return createRoom(newRoomDto);
     }
@@ -79,7 +81,7 @@ public class RoomService {
         homeRoomDto.setHouseNumber(user.getHouseNumber());
         homeRoomDto.setRoomName(HOME_ROOM_NAME);
         if (!existsRoom(homeRoomDto)) {
-            createHomeRoom(homeRoomDto);
+            createRoom(homeRoomDto);
             log.info("Home room has been successfully created: {}", homeRoomDto);
         }
         Optional<Room> homeRoom = roomRepository
@@ -94,6 +96,28 @@ public class RoomService {
             log.info("User {} has been added to home room", user);
         }
     }
+
+    public void addUserToStreetRoom(User user) {
+        var streetRoomDto = new NewRoomDto();
+        streetRoomDto.setCity(user.getCity());
+        streetRoomDto.setStreet(user.getStreet());
+        streetRoomDto.setRoomName(STREET_ROOM_NAME);
+        if (!existsStreetRoom(streetRoomDto)) {
+            createRoom(streetRoomDto);
+            log.info("Street room has been successfully created: {}", streetRoomDto);
+        }
+        Optional<Room> streetRoom = roomRepository
+                .findFirstByRoomNameAndCityAndStreet(
+                        streetRoomDto.getRoomName(),
+                        streetRoomDto.getCity(),
+                        streetRoomDto.getStreet());
+        if (streetRoom.isPresent()) {
+            streetRoom.get().addUser(user);
+            roomRepository.save(streetRoom.get());
+            log.info("User {} has been added to street room", user);
+        }
+    }
+
 
     public RoomDto joinRoom(@NonNull UserRoomKeyDto userRoomKey) {
         User user = userRepository.findUserByLogin(userRoomKey.getLogin()).orElseThrow();
@@ -217,7 +241,12 @@ public class RoomService {
         return homeRoom.isPresent();
     }
 
-    private void createHomeRoom(NewRoomDto newRoomDto) {
-        createRoom(newRoomDto);
+    private boolean existsStreetRoom(NewRoomDto newRoomDto) {
+        Optional<Room> streetRoom = roomRepository
+                .findFirstByRoomNameAndCityAndStreet(
+                        newRoomDto.getRoomName(),
+                        newRoomDto.getCity(),
+                        newRoomDto.getStreet());
+        return streetRoom.isPresent();
     }
 }
