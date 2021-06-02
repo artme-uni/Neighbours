@@ -20,7 +20,7 @@ export default class MainScreen extends React.Component{
             <div>
                 <div className={'main-screen-title'}>
                     <h1 className={'main-screen-text'}>
-                        Беспрепятсвенно делитесь важной информацией с соседями
+                        Беспрепятственно делитесь важной информацией с соседями
                     </h1>
                     <Link to={'/create'} className={'app-button main-screen-button'}>
                         Создать объвление

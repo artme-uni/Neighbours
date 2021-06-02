@@ -7,11 +7,11 @@ export default class Api {
     static sock
     static isInRoom
 
-    static url = 'http://34.118.80.63:3752'
-    static socketUrl = '34.118.80.63:3752'
+    // static url = 'http://34.118.80.63:3752'
+    // static socketUrl = '34.118.80.63:3752'
 
-    // static url = 'http://lzocalhost:8080'
-    // static socketUrl = 'localhost:8080'
+    static url = 'http://localhost:8080'
+    static socketUrl = 'localhost:8080'
 
     static loginInfoKey = 'ApiLoginInfo'
     static loginInfo = null

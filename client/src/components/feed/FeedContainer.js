@@ -22,8 +22,21 @@ export default class FeedContainer extends React.Component {
         })
     }
 
+    getButton(){
+        return  this.state.postsCount < this.props.posts.length ?
+                <button
+                    type="submit"
+                    className="app-button feed-button"
+                    onClick={this.increasePostsCount}>
+
+                    Загрузить еще
+                </button> : null
+    }
+
     render() {
         return (
+            <div>
+            { this.props.posts.length === 0 ? 'Нет доступных объвлений' :
             <div className={'app-main-container'}>
                 {this.props.posts.slice(0, this.state.postsCount).map(post =>
                     <div  key={post.id}   className={'feed-container-element'}>
@@ -37,17 +50,10 @@ export default class FeedContainer extends React.Component {
                     </div>
                 )}
 
-                { this.state.postsCount < this.props.posts.length ?
-                    <button
-                        type="submit"
-                        className="app-button feed-button"
-                        onClick={this.increasePostsCount}>
-
-                        Загрузить еще
-                    </button> : null
-                }
+                { this.getButton() }
 
             </div>
+            }</div>
         );
     }
 }
