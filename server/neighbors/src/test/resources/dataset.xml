@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-    <USERS user_id='1' city='Новосибирск' first_name='Иванов' house_number='2' street='Пирогова' last_name='Иван' login='ivanov@ya.ru'
+    <USERS user_id='2' city='Новосибирск' first_name='Иванов' house_number='2' street='Пирогова' last_name='Иван' login='ivanov@ya.ru'
            middle_name='Иванович' password='wrwr324dd@33$'/>
     <USERS user_id='3' city='Новосибирск' first_name='Андреев' house_number='2' street='Пирогова' last_name='Андрей' login='andreev@ya.ru'
            middle_name='Андреевич' password='wruyikj324dd@33$'/>
@@ -11,19 +11,19 @@
 
     <BULLETINS bulletin_id='42' publication_date='2019-03-22'
                text='Засорился мусоропровод  необходимо собрать коллективное пиьсмо в жкх'
-               title='Проблемы с мусоропроводом' user_id='1'/>
+               title='Проблемы с мусоропроводом' user_id='2'/>
     <BULLETINS bulletin_id='46' publication_date='2019-03-22'
                text='Необходимо обустроить кряльцо 1 подъезда. Объявляется сбор средств на рабочих.'
-               title='Новое крыльцо' user_id='1'/>
+               title='Новое крыльцо' user_id='3'/>
     <BULLETINS bulletin_id='47' publication_date='2019-03-22'
                text='Пропали два пекинеса  потерявшим просьба обратиться в квартиру 12 подбезд 3' title='Пропали собаки'
-               user_id='1'/>
+               user_id='2'/>
     <BULLETINS bulletin_id='48' publication_date='2019-03-22'
                text='Собираем средства на реставрацию десткого городка во внутренней части дома. Деньги передавать страшей дома'
-               title='Новый детский городок' user_id='1'/>
+               title='Новый детский городок' user_id='4'/>
     <BULLETINS bulletin_id='49' publication_date='2019-03-22'
                text='Очистка территории от мусора после зимы. Предлагается провести субботник на выходных в первой половине дня. ждем всех желающих'
-               title='Субботник в честь весны' user_id='1'/>
+               title='Субботник в честь весны' user_id='5'/>
 
     <ROOMS room_id='4' city='Новосибирск' house_number='2' room_name='Majors' street='Красный проспект'/>
     <ROOMS room_id='5' city='Новосибирск' house_number='4' room_name='Велосипедисты' street='Ленина'/>
