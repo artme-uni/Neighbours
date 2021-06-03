@@ -1,0 +1,22 @@
+.profile-form {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    width: 100%;
+    max-width: 550px;
+}
+
+.profile-field-name {
+    text-align: left;
+}
+
+.profile-field {
+    margin-bottom: 30px;
+}
+
+.profile-top-margin {
+    margin-top: 20px;
+}
+

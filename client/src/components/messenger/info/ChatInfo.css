@@ -1,0 +1,88 @@
+.chat-info-form{
+    text-align: left;
+
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    width: 100%;
+    max-width: 550px;
+}
+
+.chat-info-field-name{
+    margin-top: 30px;
+}
+
+.chat-info-field{
+    background-color: white;
+    border: 1px solid #B0B0B0;
+    margin-bottom: 10px;
+}
+
+.chat-info-members-list{
+    max-height: 230px;
+    min-height: 230px;
+    overflow: scroll;
+}
+
+
+.chat-info-member{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+
+    border: 1px solid #B0B0B0;
+    border-radius: 10px;
+    padding: 5px 15px;
+    background-color: white;
+
+    margin-top: 10px;
+
+    position: relative;
+}
+
+.chat-info-member-button{
+    width: 84px;
+    background: none;
+    border: none;
+    color: #383838;
+}
+.chat-info-member-button:hover{
+    color: #563bbd;
+}
+
+.chat-info-member-name{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: baseline;
+}
+
+
+.chat-info-avatar{
+    margin-top: 5px;
+    margin-right: 15px;
+}
+
+.chat-info-button-panel{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.chat-info-button{
+    width: 100px;
+    margin-left: 10px;
+}
+
+
+.chat-info-leave-button{
+    margin-top: 25px;
+}
+.chat-info-back-button{
+    width: 100%;
+    margin-top: 15px;
+}

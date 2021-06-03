@@ -1,0 +1,28 @@
+.post-form{
+    text-align: left;
+
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    width: 100%;
+}
+
+.post-form-field-element {
+    margin-bottom: 30px;
+}
+
+.post-form-field-name {
+    margin-bottom: 10px;
+}
+
+.post-form-field {
+    width: 100%;
+    resize: none;
+}
+
+.post-form-text {
+    height: 200px;
+    vertical-align: top;
+}

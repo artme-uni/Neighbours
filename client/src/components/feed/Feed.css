@@ -1,0 +1,62 @@
+.feed-container-element {
+    text-align: left;
+
+    border: 1px solid gray;
+    border-radius: 10px;
+
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: white;
+}
+
+.feed-post {
+    position: relative
+}
+
+.feed-post-title{
+    text-decoration: none;
+    color: #563bbd;
+}
+
+.feed-post-title:hover {
+    color: #48319b;
+}
+
+.feed-post-date{
+    color: grey;
+}
+
+.feed-post-text{
+    padding-top: 20px;
+}
+
+.feed-post-info-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+
+.btn-styled-toggle {
+    background: none;
+    padding: 0 4px 0 0;
+    color: #727272;
+}
+
+.btn-styled-toggle:focus {
+    box-shadow: none;
+}
+
+.feed-post-dropdown-element:hover {
+    color: #563bbd;
+    background: none;
+}
+
+.feed-post-dropdown-element:focus {
+    color: white;
+    background-color: #563bbd;
+}
+
+.feed-button {
+    margin-bottom: 30px;
+}

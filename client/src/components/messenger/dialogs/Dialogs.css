@@ -1,0 +1,52 @@
+.dialogs-previews-container {
+    text-align: left;
+    border: 1px solid gray;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: white;
+    width: 100%;
+}
+
+.dialogs-container-button {
+    margin-bottom: 15px;
+}
+
+.dialogs-previews-container:hover {
+    background: none;
+    border-color: #563bbd;
+    color: #383838;
+}
+
+.dialog-preview-elements {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+
+    background: none;
+    border: none;
+}
+
+.dialog-preview-info {
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+    margin-right: 10px;
+    margin-bottom: 25px;
+    position: relative;
+    width: 100%;
+}
+
+.dialog-preview-title{
+    font-size: 18pt;
+    color: #383838;
+}
+
+.dialogs-preview-date {
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    text-decoration: blink;
+    color: #727272;
+}
