@@ -23,28 +23,19 @@ public class Room {
     private String street;
     private Integer houseNumber;
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<User> users;
+    private Set<User> users = new HashSet<>();
     @OneToMany(mappedBy = "room", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Message> messages;
 
     public void addUser(User user) {
-        if (users == null) {
-            users = new HashSet<>();
-        }
         this.users.add(user);
     }
 
     public void removeUser(User user) {
-        if (users == null) {
-            users = new HashSet<>();
-        }
         this.users.remove(user);
     }
 
     public void addMessage(Message message) {
-        if (messages == null) {
-            messages = new HashSet<>();
-        }
         this.messages.add(message);
     }
 
@@ -64,6 +55,6 @@ public class Room {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, roomName, city, street, houseNumber);
     }
 }
