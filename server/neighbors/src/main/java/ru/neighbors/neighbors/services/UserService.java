@@ -39,9 +39,9 @@ public class UserService {
                     registrationUserDto.getLogin() + " - has already exited");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
         roomService.addUserToHomeRoom(user);
         roomService.addUserToStreetRoom(user);
-        userRepository.save(user);
         log.info("User has just successfully registered:{}", registrationUserDto);
     }
 

@@ -25,7 +25,7 @@ public class Room {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> users = new HashSet<>();
     @OneToMany(mappedBy = "room", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Message> messages;
+    private Set<Message> messages= new HashSet<>();
 
     public void addUser(User user) {
         this.users.add(user);
