@@ -46,7 +46,7 @@ export default class Post extends React.Component {
                         <Dropdown.Toggle variant={'styled-toggle'} id="dropdown-basic">Изменить</Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                            <Dropdown.Item className={'feed-post-dropdown-element'} href={'http://localhost:3000/edit/' + this.props.id}>
+                            <Dropdown.Item className={'feed-post-dropdown-element'} href={'/edit/' + this.props.id}>
                                 Редактировать
                             </Dropdown.Item>
 
